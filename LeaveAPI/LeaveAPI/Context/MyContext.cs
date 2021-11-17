@@ -22,42 +22,76 @@ namespace LeaveAPI.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<TotalLeave> TotalLeaves { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {   //Employe - Account
             modelBuilder.Entity<Employee>()
                 .HasOne(a => a.Account)
                 .WithOne(b => b.Employee)
                 .HasForeignKey<Account>(b => b.EmployeeId);
 
+            //Job - Employee
             modelBuilder.Entity<Job>()
                .HasMany(a => a.Employee)
                .WithOne(b => b.Job);
 
+            //Account - AccountRole
             modelBuilder.Entity<Account>()
                 .HasMany(c => c.AccountRole)
                 .WithOne(e => e.Account);
 
+            //Role - AccountRole
             modelBuilder.Entity<Role>()
                 .HasMany(c => c.AccountRole)
                 .WithOne(e => e.Role);
 
+            //LeaveDetail - TotalLeave
             modelBuilder.Entity<LeaveDetail>()
                 .HasOne(a => a.TotalLeave)
                 .WithOne(b => b.LeaveDetail)
                 .HasForeignKey<TotalLeave>(b => b.LeaveDetailId);
 
+            //LeaveType - LeaveDetail
             modelBuilder.Entity<LeaveType>()
                 .HasMany(c => c.LeaveDetail)
                 .WithOne(e => e.LeaveType);
 
-            modelBuilder.Entity<Employee>()
-                .HasMany(c => c.LeaveDetailManager)
-                .WithOne(e => e.Manager);
+            //Employee - Leave Detail Manager
+            /* modelBuilder.Entity<LeaveDetail>()
+                 .HasOne(a => a.Manager)
+                 .WithMany(b => b.LeaveDetailManager)
+                 .HasForeignKey(a => a.ManagerId);*/
+            /* modelBuilder.Entity<Employee>()
+                 .HasMany(c => c.LeaveDetailManager)
+                 .WithOne(e => e.Manager);*/
+            modelBuilder.Entity<LeaveDetail>()
+                    .HasOne(m => m.Manager)
+                    .WithMany(t => t.LeaveDetailManager)
+                    .HasForeignKey(m => m.ManagerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Employee>()
+
+            //Employee - Leave Detail Employee
+            modelBuilder.Entity<LeaveDetail>()
+                    .HasOne(m => m.Employee)
+                    .WithMany(t => t.LeaveDetailEmployee)
+                    .HasForeignKey(m => m.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<LeaveDetail>()
+                 .HasOne(a => a.Employee)
+                 .WithMany(b => b.LeaveDetailEmployee)
+                 .HasForeignKey(a => a.EmployeeId);
+            /*modelBuilder.Entity<Employee>()
                 .HasMany(c => c.LeaveDetailEmployee)
-                .WithOne(e => e.Employee);
+                .WithOne(e => e.Employee);*/
 
-
+            //Employee - TotalLeave
+            modelBuilder.Entity<Employee>()
+               .HasMany(c => c.TotalLeave)
+               .WithOne(e => e.Employee);
+            //Account Role
+            /*modelBuilder.Entity<AccountRole>()
+                .HasKey(ar => new { ar.NIK, ar.RoleId });
+*/
 
 
 

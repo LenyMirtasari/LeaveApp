@@ -35,7 +35,7 @@ namespace LeaveAPI.Models
         public virtual ICollection<TotalLeave> TotalLeave { get; set; }
         [JsonIgnore]
         public virtual ICollection<LeaveDetail> LeaveDetailEmployee { get; set; }
-        [JsonIgnore]
+        [JsonIgnore] 
         public virtual ICollection<LeaveDetail> LeaveDetailManager { get; set; }
     }
 
