@@ -16,11 +16,8 @@ namespace LeaveAPI.Models
         public int LastYear { get; set; }
         public int TotalLeaves { get; set; }
         public int CurrentYear { get; set; }
-        public int EmployeeId { get; set; }
         public int LeaveDetailId { get; set; }
 
-        [JsonIgnore]
-        public virtual Employee Employee { get; set; }
         [JsonIgnore]
         public virtual LeaveDetail LeaveDetail { get; set; }
     }

@@ -132,14 +132,15 @@ namespace LeaveAPI.Migrations
                 name: "Tb_T_AccountRole",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    AccountRoleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     AccountEmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tb_T_AccountRole", x => x.EmployeeId);
+                    table.PrimaryKey("PK_Tb_T_AccountRole", x => x.AccountRoleId);
                     table.ForeignKey(
                         name: "FK_Tb_T_AccountRole_Tb_M_Role_RoleId",
                         column: x => x.RoleId,
@@ -164,8 +165,8 @@ namespace LeaveAPI.Migrations
                     LastYear = table.Column<int>(type: "int", nullable: false),
                     TotalLeaves = table.Column<int>(type: "int", nullable: false),
                     CurrentYear = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    LeaveDetailId = table.Column<int>(type: "int", nullable: false)
+                    LeaveDetailId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -175,7 +176,7 @@ namespace LeaveAPI.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Tb_T_Employee",
                         principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tb_T_TotalLeave_Tb_T_LeaveDetail_LeaveDetailId",
                         column: x => x.LeaveDetailId,

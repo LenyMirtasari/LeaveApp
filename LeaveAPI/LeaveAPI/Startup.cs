@@ -1,4 +1,5 @@
 using LeaveAPI.Context;
+using LeaveAPI.Repository.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,14 @@ namespace LeaveAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<AccountRepository>();
+            services.AddScoped<AccountRoleRepository>();
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<JobRepository>();
+            services.AddScoped<LeaveDetailRepository>();
+            services.AddScoped<LeaveTypeRepository>();
+            services.AddScoped<RoleRepository>();
+            services.AddScoped<TotalLeaveRepository>();
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("APIContext")));
         }
 

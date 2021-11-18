@@ -34,7 +34,7 @@ namespace LeaveAPI.Migrations
 
             modelBuilder.Entity("LeaveAPI.Models.AccountRole", b =>
                 {
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("AccountRoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -42,10 +42,13 @@ namespace LeaveAPI.Migrations
                     b.Property<int?>("AccountEmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId");
+                    b.HasKey("AccountRoleId");
 
                     b.HasIndex("AccountEmployeeId");
 
@@ -200,7 +203,7 @@ namespace LeaveAPI.Migrations
                     b.Property<int>("EligibleLeave")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("LastYear")
@@ -288,19 +291,15 @@ namespace LeaveAPI.Migrations
 
             modelBuilder.Entity("LeaveAPI.Models.TotalLeave", b =>
                 {
-                    b.HasOne("LeaveAPI.Models.Employee", "Employee")
+                    b.HasOne("LeaveAPI.Models.Employee", null)
                         .WithMany("TotalLeave")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("LeaveAPI.Models.LeaveDetail", "LeaveDetail")
                         .WithOne("TotalLeave")
                         .HasForeignKey("LeaveAPI.Models.TotalLeave", "LeaveDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Employee");
 
                     b.Navigation("LeaveDetail");
                 });

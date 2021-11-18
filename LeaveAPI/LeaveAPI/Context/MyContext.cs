@@ -84,14 +84,7 @@ namespace LeaveAPI.Context
                 .HasMany(c => c.LeaveDetailEmployee)
                 .WithOne(e => e.Employee);*/
 
-            //Employee - TotalLeave
-            modelBuilder.Entity<Employee>()
-               .HasMany(c => c.TotalLeave)
-               .WithOne(e => e.Employee);
-            //Account Role
-            /*modelBuilder.Entity<AccountRole>()
-                .HasKey(ar => new { ar.NIK, ar.RoleId });
-*/
+
 
 
 
