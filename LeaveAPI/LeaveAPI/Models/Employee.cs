@@ -25,6 +25,8 @@ namespace LeaveAPI.Models
         public DateTime HireDate { get; set; }
         public int JobId { get; set; }
 
+        public int? ManagerId { get; set; }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public Gender Gender { get; set; }
         [JsonIgnore]
@@ -37,6 +39,10 @@ namespace LeaveAPI.Models
         public virtual ICollection<LeaveDetail> LeaveDetailEmployee { get; set; }
         [JsonIgnore] 
         public virtual ICollection<LeaveDetail> LeaveDetailManager { get; set; }
+        [JsonIgnore]
+        public Employee Manager { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 
     public enum Gender

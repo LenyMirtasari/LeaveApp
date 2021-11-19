@@ -30,8 +30,7 @@ namespace LeaveAPI.Models
         public virtual Employee Employee { get; set; }
         [JsonIgnore]
         public virtual Employee Manager{ get; set; }
-        [JsonIgnore]
-        public virtual TotalLeave TotalLeave{ get; set; }
+  
         [JsonIgnore]
         public virtual LeaveType LeaveType{ get; set; }
     }

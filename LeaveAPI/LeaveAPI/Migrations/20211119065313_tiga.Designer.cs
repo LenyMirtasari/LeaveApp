@@ -4,14 +4,16 @@ using LeaveAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LeaveAPI.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20211119065313_tiga")]
+    partial class tiga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +84,7 @@ namespace LeaveAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<int>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
@@ -262,7 +264,8 @@ namespace LeaveAPI.Migrations
 
                     b.HasOne("LeaveAPI.Models.Employee", "Manager")
                         .WithMany("Employees")
-                        .HasForeignKey("ManagerId");
+                        .HasForeignKey("ManagerId")
+                        .IsRequired();
 
                     b.Navigation("Job");
 

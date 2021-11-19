@@ -59,6 +59,7 @@ namespace LeaveAPI.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     JobId = table.Column<int>(type: "int", nullable: false),
+                    ManagerId = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -70,6 +71,12 @@ namespace LeaveAPI.Migrations
                         principalTable: "Tb_M_Job",
                         principalColumn: "JobId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tb_T_Employee_Tb_T_Employee_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Tb_T_Employee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -206,6 +213,11 @@ namespace LeaveAPI.Migrations
                 name: "IX_Tb_T_Employee_JobId",
                 table: "Tb_T_Employee",
                 column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tb_T_Employee_ManagerId",
+                table: "Tb_T_Employee",
+                column: "ManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tb_T_Employee_PhoneNumber",

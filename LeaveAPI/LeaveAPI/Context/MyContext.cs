@@ -43,11 +43,10 @@ namespace LeaveAPI.Context
                 .HasMany(c => c.AccountRole)
                 .WithOne(e => e.Role);
 
-            //LeaveDetail - TotalLeave
-            modelBuilder.Entity<LeaveDetail>()
-                .HasOne(a => a.TotalLeave)
-                .WithOne(b => b.LeaveDetail)
-                .HasForeignKey<TotalLeave>(b => b.LeaveDetailId);
+            //LeaveDetail - Employee
+            modelBuilder.Entity<Employee>()
+                .HasMany(c => c.TotalLeave)
+                .WithOne(e => e.Employee);
 
             //LeaveType - LeaveDetail
             modelBuilder.Entity<LeaveType>()
@@ -84,7 +83,13 @@ namespace LeaveAPI.Context
                 .HasMany(c => c.LeaveDetailEmployee)
                 .WithOne(e => e.Employee);*/
 
-
+            //SelfJoin Employee-Manager
+            modelBuilder.Entity<Employee>()
+                 .HasMany(a => a.Employees)
+                 .WithOne(b => b.Manager)
+                 .HasForeignKey(a => a.ManagerId)
+                 .OnDelete(DeleteBehavior.ClientSetNull); 
+          
 
 
 

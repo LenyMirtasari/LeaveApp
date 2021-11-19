@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveAPI.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20211118070158_satu")]
-    partial class satu
+    [Migration("20211119033944_dua")]
+    partial class dua
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,9 @@ namespace LeaveAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(450)");
 
@@ -94,6 +97,8 @@ namespace LeaveAPI.Migrations
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("JobId");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("PhoneNumber")
                         .IsUnique()
@@ -221,9 +226,6 @@ namespace LeaveAPI.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("LeaveDetailId")
-                        .IsUnique();
-
                     b.ToTable("Tb_T_TotalLeave");
                 });
 
@@ -263,7 +265,14 @@ namespace LeaveAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LeaveAPI.Models.Employee", "Manager")
+                        .WithMany("Employees")
+                        .HasForeignKey("ManagerId")
+                        .IsRequired();
+
                     b.Navigation("Job");
+
+                    b.Navigation("Manager");
                 });
 
             modelBuilder.Entity("LeaveAPI.Models.LeaveDetail", b =>
@@ -293,17 +302,11 @@ namespace LeaveAPI.Migrations
 
             modelBuilder.Entity("LeaveAPI.Models.TotalLeave", b =>
                 {
-                    b.HasOne("LeaveAPI.Models.Employee", null)
+                    b.HasOne("LeaveAPI.Models.Employee", "Employee")
                         .WithMany("TotalLeave")
                         .HasForeignKey("EmployeeId");
 
-                    b.HasOne("LeaveAPI.Models.LeaveDetail", "LeaveDetail")
-                        .WithOne("TotalLeave")
-                        .HasForeignKey("LeaveAPI.Models.TotalLeave", "LeaveDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LeaveDetail");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("LeaveAPI.Models.Account", b =>
@@ -315,6 +318,8 @@ namespace LeaveAPI.Migrations
                 {
                     b.Navigation("Account");
 
+                    b.Navigation("Employees");
+
                     b.Navigation("LeaveDetailEmployee");
 
                     b.Navigation("LeaveDetailManager");
@@ -325,11 +330,6 @@ namespace LeaveAPI.Migrations
             modelBuilder.Entity("LeaveAPI.Models.Job", b =>
                 {
                     b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("LeaveAPI.Models.LeaveDetail", b =>
-                {
-                    b.Navigation("TotalLeave");
                 });
 
             modelBuilder.Entity("LeaveAPI.Models.LeaveType", b =>
