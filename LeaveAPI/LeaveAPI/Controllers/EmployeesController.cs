@@ -84,7 +84,7 @@ namespace LeaveAPI.Controllers
             }
         }
 
-        /*[Route("Login")]
+        [Route("Login")]
         [HttpPost]
         public ActionResult Login(LoginVM loginVM)
         {
@@ -95,7 +95,7 @@ namespace LeaveAPI.Controllers
             }
             else if (result == 3)
             {
-                var getRoles = repository.GetRole(loginVM.Email);
+                /*var getRoles = repository.GetRole(loginVM.Email);*/
 
                 var data = new LoginVM()
                 {
@@ -107,10 +107,10 @@ namespace LeaveAPI.Controllers
                     new Claim("Email", data.Email),
                 };
 
-                foreach (var item in getRoles)
+                /*foreach (var item in getRoles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, item.ToString()));
-                }
+                }*/
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var sigIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -125,10 +125,10 @@ namespace LeaveAPI.Controllers
 
                 var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
                 claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-                *//*return Ok(new { status = HttpStatusCode.OK, idtoken, message = "Login Berhasil" });*//*
+                return Ok(new { status = HttpStatusCode.OK, idtoken, message = "Login Berhasil" });
                 return Ok(new JWTokenVM
                 {
-                    *//* status = HttpStatusCode.OK, *//*
+                    /*status = HttpStatusCode.OK,*/
                     Token = idtoken,
                     Messages = "Login Berhasil!!"
                 });
@@ -137,7 +137,7 @@ namespace LeaveAPI.Controllers
             {
                 return Ok(new { status = HttpStatusCode.BadRequest, message = "Login Gagal" });
             }
-        }*/
+        }
 
     }
 
