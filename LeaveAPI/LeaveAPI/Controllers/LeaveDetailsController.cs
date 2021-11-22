@@ -29,7 +29,17 @@ namespace LeaveAPI.Controllers
             var data = repository.Get();
             return data;
         }
+        [Route("Holiday")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdAsync() { 
+        var model = await repository.GetHolidaysAsync();
+
+        if (model == null)
+            return NotFound(); 
+
+        return Ok(model);
+        }
 
 
-    }
+}
 }
