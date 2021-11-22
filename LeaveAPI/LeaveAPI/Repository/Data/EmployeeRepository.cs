@@ -106,62 +106,38 @@ namespace LeaveAPI.Repository.Data
             return result;
         }
 
-/*        public IEnumerable<RequesterVM> GetRequester()
+        public int GetEmployeeCheck(int Key)
         {
-            var query = (from e in myContext.Employees
-                         join a in myContext.Accounts on e.EmployeeId equals a.EmployeeId
-                         join ar in myContext.AccountRoles on a.EmployeeId equals ar.EmployeeId
-                         join r in myContext.Roles on ar.RoleId equals r.RoleId
-                         join j in myContext.Jobs on e.JobId equals j.JobId
-                         join tl in myContext.TotalLeaves on e.EmployeeId equals tl.EmployeeId
-                         join ld in myContext.LeaveDetails on e.EmployeeId equals ld.EmployeeId
-                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
-                         orderby e.EmployeeId
-                         select new RequesterVM
-                         {
-                             EmployeeId = e.EmployeeId,
-                             FirstName = e.FirstName,
-                             LastName = e.LastName,
-                             PhoneNumber = e.PhoneNumber,
-                             HireDate = e.HireDate,
-                             Email = e.Email,
-                             JobId = e.JobId,
-                             ManagerId = e.ManagerId,
-                             Gender = (ViewModel.Gender)e.Gender,
-                             Password = a.Password
-                         }).ToList();
-            return query;
+            var datas = myContext.Employees.Find(Key);
+            if (datas != null)
+            {
+                return 1;
+            }
+            return 0;
         }
 
-        public RequesterVM GetRequesterEmployeeId (string EmployeeId)
+        public Object GetProfile(int Key)
         {
-            var query = (from e in myContext.Employees
-                         join a in myContext.Accounts on e.EmployeeId equals a.EmployeeId
-                         join ar in myContext.AccountRoles on a.EmployeeId equals ar.EmployeeId
-                         join r in myContext.Roles on ar.RoleId equals r.RoleId
-                         join j in myContext.Jobs on e.JobId equals j.JobId
-                         join tl in myContext.TotalLeaves on e.EmployeeId equals tl.EmployeeId
-                         join ld in myContext.LeaveDetails on e.EmployeeId equals ld.EmployeeId
-                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
-                         orderby e.EmployeeId
-                         select new RequesterVM
+            var result = from emp in myContext.Employees                      
+                         join job in myContext.Jobs on emp.JobId equals job.JobId
+                         join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
+                         where emp.EmployeeId == Key
+                         select new RequesterVM()
                          {
-                             NIK = e.NIK,
-                             FirstName = e.FirstName,
-                             LastName = e.LastName,
-                             PhoneNumber = e.PhoneNumber,
-                             BirthDate = e.BirthDate,
-                             Salary = e.Salary,
-                             Email = e.Email,
-                             Gender = (ViewModel.Gender)e.Gender,
-                             Password = a.Password,
-                             Degree = ed.Degree,
-                             GPA = ed.GPA,
-                             UniversityId = ed.UniversityId,
-                             RoleId = r.RoleId
-                         }).Where(e => e.NIK == NIK).FirstOrDefault();
-            return query;
-        }*/
+                             ID = Key,
+                             FullName = emp.FirstName + " " + emp.LastName,                        
+                             JobTittle =   job.JobTitle,
+                             Email = emp.Email,
+                             PhoneNumber = emp.PhoneNumber,
+                             ManagerId = emp.ManagerId,
+                             EligibleLeave = tl.EligibleLeave,
+                             LastYear = tl.LastYear,
+                             CurrentYear = tl.CurrentYear,
+                             TotalLeaves = tl.TotalLeaves
+                         };
+
+            return result;
+        }
 
         public int Login(LoginVM loginVM)
         {
@@ -185,7 +161,5 @@ namespace LeaveAPI.Repository.Data
                 return 4;
             }
         }
-
-
     }
 }
