@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace LeaveAPI.Models
 {
     public class HoliDate
-    {   
-      /*  public int HolidayCaption { get; set; }*/
-   
+    {
+        public int Coba { get; set; }
+
         public IEnumerable<Holiday> Holiday { get; set; }
     }
 }

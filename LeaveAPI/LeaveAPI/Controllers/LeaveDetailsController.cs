@@ -1,6 +1,7 @@
 ﻿using LeaveAPI.Base;
 using LeaveAPI.Models;
 using LeaveAPI.Repository.Data;
+using LeaveAPI.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -29,6 +30,7 @@ namespace LeaveAPI.Controllers
             var data = repository.Get();
             return data;
         }
+
         [Route("Holiday")]
         [HttpGet]
         public async Task<IActionResult> GetByIdAsync() { 
@@ -40,6 +42,18 @@ namespace LeaveAPI.Controllers
         return Ok(model);
         }
 
+        [Route("LeaveRequest")]
+        [HttpPost]
+        public ActionResult LeaveRequest(LeaveRequestVM leaveRequestVM)  
+        {
+            repository.LeaveRequest(leaveRequestVM);
 
-}
+      /*      if (model == null)
+                return NotFound();*/
+
+            return Ok();
+        }
+
+
+    }
 }
