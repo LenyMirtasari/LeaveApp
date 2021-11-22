@@ -83,5 +83,38 @@ namespace LeaveAPI.Repository.Data
             var result = myContext.SaveChanges();
             return result;
         }
+
+        public int GetEmployeeCheck(int Key)
+        {
+            var datas = myContext.Employees.Find(Key);
+            if (datas != null)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        public Object GetProfile(int Key)
+        {
+            var result = from emp in myContext.Employees                      
+                         join job in myContext.Jobs on emp.JobId equals job.JobId
+                         join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
+                         where emp.EmployeeId == Key
+                         select new RequesterInfoVM()
+                         {
+                             ID = Key,
+                             FullName = emp.FirstName + " " + emp.LastName,                        
+                             JobTittle =   job.JobTitle,
+                             Email = emp.Email,
+                             PhoneNumber = emp.PhoneNumber,
+                             ManagerId = emp.ManagerId,
+                             EligibleLeave = tl.EligibleLeave,
+                             LastYear = tl.LastYear,
+                             CurrentYear = tl.CurrentYear,
+                             TotalLeaves = tl.TotalLeaves
+                         };
+
+            return result;
+        }
     }
 }

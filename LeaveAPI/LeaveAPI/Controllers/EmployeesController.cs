@@ -74,5 +74,21 @@ namespace LeaveAPI.Controllers
                 return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
             }
         }
+
+        [Route("Requester/{Key}")]
+        [HttpGet]
+        public ActionResult GetProfile(int Key)
+        {
+            var check = repository.GetEmployeeCheck(Key);
+            if (check == 0)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Data Not Found " });
+            }
+            else
+            {
+                var result = repository.GetProfile(Key);
+                return Ok(result);
+            }
+        }
     }
 }
