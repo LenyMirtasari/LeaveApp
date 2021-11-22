@@ -34,12 +34,22 @@ namespace LeaveAPI.ViewModel
 
         [Required(ErrorMessage = "Please enter your gender")]
         public Gender Gender { get; set; }
+
         [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
+
+        [Required]
+        public int RoleId { get; set; }
         public int EligibleLeave { get; set; }
         public int LastYear { get; set; }
         public int TotalLeaves { get; set; }
         public int CurrentYear { get; set; }
         public int EmployeeId { get; set; }
     }
+
+    /*public enum Gender
+    {
+        Male,
+        Female
+    }*/
 }
