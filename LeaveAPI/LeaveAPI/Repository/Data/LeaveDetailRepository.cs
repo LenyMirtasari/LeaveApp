@@ -212,5 +212,28 @@ namespace LeaveAPI.Repository.Data
             var result = myContext.SaveChanges();
             return result;
         }
+
+        public Object GetHistory(int Key)
+        {
+            var result = from emp in myContext.Employees
+                         join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
+                         join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
+                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
+                         where emp.EmployeeId == Key
+                         select new RequesterHistoryVM()
+                         {
+                             ID = Key,
+                             LeaveId = ld.LeaveDetailId,
+                             FullName = emp.FirstName + " " + emp.LastName,
+                             StartDate = ld.StartDate,
+                             EndDate = ld.EndDate,
+                             Note = ld.Note,
+                             SubmitDate = ld.SubmitDate,
+                             Approval = ld.Approval,
+                             LeaveTypeName = lt.LeaveTypeName
+                         };
+
+            return result;
+        }
     }
 }

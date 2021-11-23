@@ -78,5 +78,15 @@ namespace LeaveAPI.Controllers
                 return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
             }
         }
+
+        [Route("GetHistory/{Key}")]
+        [HttpGet]
+        public ActionResult GetHistory(int key)
+        {
+            var data = repository.GetHistory(key);
+            return Ok(data);
+        }
+
+
     }
 }
