@@ -2,12 +2,17 @@
 using LeaveAPI.Models;
 using LeaveAPI.Repository.Data;
 using LeaveAPI.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LeaveAPI.Controllers
@@ -89,6 +94,59 @@ namespace LeaveAPI.Controllers
                 var result = repository.GetProfile(Key);
                 return Ok(result);
             }
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        public ActionResult Login(LoginVM loginVM)
+        {
+            var check = repository.GetLogin(loginVM.Email, loginVM.Password);
+
+            if (check == 1)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Wrong Email " });
+
+            }
+            else if (check == 2)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Wrong Password " });
+            }
+            else
+            {
+                var getUserRoles = repository.GetUserRole(loginVM.Email);
+
+                var data = new LoginDataVM()
+                {
+                    Email = loginVM.Email,
+                };
+                var claims = new List<Claim>
+                {
+                    new Claim("email", data.Email),
+                };
+                foreach (var a in getUserRoles)
+                {
+                    claims.Add(new Claim("roles", a.ToString()));
+                }
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                            _configuration["Jwt:Issuer"],
+                            _configuration["Jwt:Audience"],
+                            claims,
+                            expires: DateTime.UtcNow.AddMinutes(10),
+                            signingCredentials: signIn
+                            );
+                var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
+                claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
+                return Ok(new JWTokenVM { Token = idtoken, Messages = "Login Success " });
+            }
+        }
+
+        [Authorize]
+        [HttpGet("TestJWT")]
+        public ActionResult TestJWT()
+        {
+            return Ok("Test JWT berhasil");
         }
     }
 }

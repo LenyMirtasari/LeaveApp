@@ -66,3 +66,4 @@ D:\MCC\LeaveApp\LeaveAPI\LeaveAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.J
 D:\MCC\LeaveApp\LeaveAPI\LeaveAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\MCC\LeaveApp\LeaveAPI\LeaveAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 D:\MCC\LeaveApp\LeaveAPI\LeaveAPI\bin\Debug\netcoreapp3.1\RestSharp.dll
+D:\MCC\LeaveApp\LeaveAPI\LeaveAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll

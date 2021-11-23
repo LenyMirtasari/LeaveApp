@@ -116,5 +116,49 @@ namespace LeaveAPI.Repository.Data
 
             return result;
         }
+
+        public int GetLogin(string emailInput, string passwordInput)
+        {
+            try
+            {
+                var checkEmail = myContext.Employees.Where(p => p.Email == emailInput).FirstOrDefault();
+                var id = (from emp in myContext.Employees where emp.Email == emailInput select emp.EmployeeId).Single();
+                var password = (from emp in myContext.Employees
+                                join acc in myContext.Accounts on emp.EmployeeId equals acc.EmployeeId
+                                where emp.Email == emailInput
+                                select acc.Password).Single();
+                var validPw = Hashing.ValidatePassword(passwordInput, password);
+                if (checkEmail != null)
+                {
+                    if (validPw == true)
+                    {
+                        return 0;
+
+                    }
+                    else if (validPw == false)
+                    {
+                        return 2;
+                    }
+
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return 1;
+            }
+            return 3;
+        }
+
+        public string[] GetUserRole(string emailInput)
+        {
+            var id = (from emp in myContext.Employees where emp.Email == emailInput select emp.EmployeeId).FirstOrDefault();
+            var roles = myContext.AccountRoles.Where(a => a.EmployeeId == id).ToList();
+            List<string> result = new List<string>();
+            foreach (var item in roles)
+            {
+                result.Add(myContext.Roles.Where(a => a.RoleId == item.RoleId).First().RoleName);
+            }
+            return result.ToArray();
+        }
     }
 }
