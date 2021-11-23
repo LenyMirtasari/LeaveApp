@@ -182,10 +182,11 @@ namespace LeaveAPI.Repository.Data
 
         }
 
-        public int ManageBy(ManagerVM managerVM)
+        public int Approve(int key)
         {
-            Employee f = myContext.Employees.FirstOrDefault(x => x.EmployeeId == managerVM.EmployeeId);
-            f.ManagerId = managerVM.ManagerId;
+            var approve = myContext.LeaveDetails.Where(a => a.EmployeeId == key).ToList();
+            LeaveDetail f = approve.OrderByDescending(x => x.LeaveDetailId).First();
+            f.Approval = true;
             var result = myContext.SaveChanges();
             return result;
         }
