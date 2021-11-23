@@ -154,11 +154,33 @@ namespace LeaveAPI.Repository.Data
                 }
                 var totalLeaves = myContext.TotalLeaves.Where(a => a.EmployeeId == leaveRequestVM.EmployeeId).ToList();
                 var newList = totalLeaves.OrderByDescending(x => x.TotalLeaveId).First();
-                if(totLeave > newList.EligibleLeave)
-                {
-                    return 2;
+                if (leaveRequestVM.LeaveTypeId == 1 ) { 
+                    if(totLeave > newList.EligibleLeave)
+                    {
+                        return 2;
+                    }
+                    else { 
+                        LeaveDetail ld = new LeaveDetail();
+                        ld.StartDate = StartDate;
+                        ld.EndDate = EndDate;
+                        ld.Note = leaveRequestVM.Note;
+                        ld.SubmitDate = DateTime.Now;
+                        ld.ManagerId = leaveRequestVM.ManagerId;
+                        ld.LeaveTypeId = leaveRequestVM.LeaveTypeId;
+                        ld.EmployeeId = leaveRequestVM.EmployeeId;
+                        myContext.Add(ld);
+                        myContext.SaveChanges();
+                        TotalLeave tl = new TotalLeave();
+                        tl.EmployeeId = leaveRequestVM.EmployeeId;
+                        tl.EligibleLeave = newList.EligibleLeave - totLeave;
+                        tl.TotalLeaves = totLeave + newList.TotalLeaves;
+                        myContext.Add(tl);
+                        myContext.SaveChanges();
+                        return 0;
+                    }
                 }
-                else { 
+                else
+                {
                     LeaveDetail ld = new LeaveDetail();
                     ld.StartDate = StartDate;
                     ld.EndDate = EndDate;
@@ -171,11 +193,11 @@ namespace LeaveAPI.Repository.Data
                     myContext.SaveChanges();
                     TotalLeave tl = new TotalLeave();
                     tl.EmployeeId = leaveRequestVM.EmployeeId;
-                    tl.EligibleLeave = newList.EligibleLeave - totLeave;
                     tl.TotalLeaves = totLeave + newList.TotalLeaves;
                     myContext.Add(tl);
                     myContext.SaveChanges();
                     return 0;
+
                 }
             }
 
