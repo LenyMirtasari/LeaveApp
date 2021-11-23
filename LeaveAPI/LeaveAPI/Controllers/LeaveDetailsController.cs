@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -25,13 +26,13 @@ namespace LeaveAPI.Controllers
     
         [Route("GetAPI")]
         [HttpGet]
-        public string GetAPI()
+        public ActionResult GetAPI()
         {
             var data = repository.Get();
-            return data;
+            return Ok(data);
         }
 
-        [Route("Holiday")]
+/*        [Route("Holiday")]
         [HttpGet]
         public async Task<IActionResult> GetByIdAsync() { 
         var model = await repository.GetHolidaysAsync();
@@ -40,20 +41,42 @@ namespace LeaveAPI.Controllers
             return NotFound(); 
 
         return Ok(model);
-        }
+        }*/
 
         [Route("LeaveRequest")]
         [HttpPost]
         public ActionResult LeaveRequest(LeaveRequestVM leaveRequestVM)  
         {
-            repository.LeaveRequest(leaveRequestVM);
+            var result =repository.LeaveRequest(leaveRequestVM);
 
-      /*      if (model == null)
-                return NotFound();*/
-
-            return Ok();
+            if (result==1)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Date has passed" });
+            }
+            else if (result == 2)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Eligible Leave Not Available" });
+            }
+            else
+            {
+                return Ok(result);
+            }
+            
         }
 
-
+        [Route("Approve/{Key}")]
+        [HttpPost]
+        public ActionResult SignManager(int key)
+        {
+            try
+            {
+                var result = repository.SignManager(key);
+                return Ok(new { status = HttpStatusCode.OK, result, message = "Data Updated" });
+            }
+            catch (Exception)
+            {
+                return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
+            }
+        }
     }
 }
