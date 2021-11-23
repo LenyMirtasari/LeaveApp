@@ -128,20 +128,15 @@ namespace LeaveAPI.Repository.Data
             tl.TotalLeaves = totLeave;
             myContext.Add(tl);
             myContext.SaveChanges();
-            // return 1;
-            /* var totalLeaves=
-
-             var totalLeave = myContext.TotalLeaves.Where(p => p.EmployeeId == leaveRequestVM.EmployeeId).FirstOrDefault();
-             TotalLeave tl = new TotalLeave();
-             tl.TotalLeaves = totalLeave.TotalLeaves + 
-             myContext.Add(tl);
-             myContext.SaveChanges();*/
-
-
-            /* var newDate = myDate.ToString("dddd");
-             DateTime now = DateTime.Now;
-*/
-
+            
         }
+
+        public async void HistoryRequest(HistoryRequestVM historyRequestVM)
+        {
+            LeaveDetail ld = new LeaveDetail();
+
+            
+        }
+
     }
 }

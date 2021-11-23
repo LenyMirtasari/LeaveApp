@@ -49,10 +49,14 @@ namespace LeaveAPI.Controllers
         public ActionResult LeaveRequest(LeaveRequestVM leaveRequestVM)
         {
             repository.LeaveRequest(leaveRequestVM);
+            return Ok();
+        }
 
-            /*      if (model == null)
-                      return NotFound();*/
-
+        [Route("HistoryRequest")]
+        [HttpPost]
+        public ActionResult HistoryRequest(HistoryRequestVM historyRequestVM)
+        {
+            repository.HistoryRequest(historyRequestVM);
             return Ok();
         }
     }

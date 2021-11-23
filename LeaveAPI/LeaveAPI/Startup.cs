@@ -42,6 +42,10 @@ namespace LeaveAPI
             services.AddScoped<TotalLeaveRepository>();
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("APIContext")));
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
             services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,6 +70,8 @@ namespace LeaveAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(option => option.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             app.UseAuthentication();
 
             app.UseAuthorization();

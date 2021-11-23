@@ -5594,11 +5594,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
+      "projectUniqueName": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
       "projectName": "LeaveAPI",
-      "projectPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
+      "projectPath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\obj\\",
+      "outputPath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
