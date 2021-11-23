@@ -1,6 +1,5 @@
 {
   "version": 2,
-<<<<<<< Updated upstream
   "dgSpecHash": "cAxelphlHhdyc0s4eYOhrZM7jbDoiycRHD61Zmj01lhySej92HpyiDJGpCfPVqmgjii4s5b5RgrKW4san5/0PA==",
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
@@ -8,14 +7,6 @@
     "C:\\Users\\HP\\.nuget\\packages\\bcrypt.net-core\\1.6.0\\bcrypt.net-core.1.6.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.8\\microsoft.aspnetcore.authentication.jwtbearer.3.1.8.nupkg.sha512",
-=======
-  "dgSpecHash": "Zsr92woYMdAtXO4Fj273iuiU4ySEaidKoN7v7gQQ17fXQckr+HiMX03+mxnBZ+noFvJ9xaD7P+SN2CksTzLOmA==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\HP\\.nuget\\packages\\bcrypt.net-core\\1.6.0\\bcrypt.net-core.1.6.0.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
->>>>>>> Stashed changes
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.20\\microsoft.aspnetcore.jsonpatch.3.1.20.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.20\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.20.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
