@@ -1,5 +1,6 @@
 ﻿using LeaveAPI.Context;
 using LeaveAPI.Models;
+using LeaveAPI.ViewModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -59,6 +60,88 @@ namespace LeaveAPI.Repository.Data
             Console.WriteLine(response.Content);
 
             return null;
+        }
+
+        public async Task<int> GetHolidaysAsync(DateTime date)
+        {
+            var client = new RestClient($"https://api-harilibur.vercel.app/api");
+            var request = new RestRequest(Method.GET);
+            IRestResponse response = await client.ExecuteAsync(request);
+            if (response.IsSuccessful)
+            {
+                var content = JsonConvert.DeserializeObject<JToken>(response.Content);
+
+                var holidays = content
+                     .Select(team => new Holiday
+                     {
+                         holiday_date = (DateTime)team["holiday_date"],
+                         holiday_name = (string)team["holiday_name"],
+                         is_national_holiday = (bool)team["is_national_holiday"]
+                     }).Where(a => a.holiday_date == date)
+                    .First();
+                return 1;
+            }
+            Console.WriteLine(response.Content);
+
+            return 0;
+        }
+
+        public async void LeaveRequest(LeaveRequestVM leaveRequestVM)
+        {
+            LeaveDetail ld = new LeaveDetail();
+
+            ld.StartDate = leaveRequestVM.StartDate;
+            ld.EndDate = leaveRequestVM.EndDate;
+            ld.Note = leaveRequestVM.Note;
+            ld.SubmitDate = DateTime.Now;
+            ld.ManagerId = leaveRequestVM.ManagerId;
+            ld.LeaveTypeId = leaveRequestVM.LeaveTypeId;
+            ld.EmployeeId = leaveRequestVM.EmployeeId;
+            myContext.Add(ld);
+            myContext.SaveChanges();
+
+            DateTime StartDate = leaveRequestVM.StartDate;
+            DateTime EndDate = leaveRequestVM.EndDate;
+            int DayInterval = 1;
+            int totLeave = 0;
+            //List<DateTime> dateList = new List<DateTime>();
+            while (StartDate.AddDays(DayInterval) <= EndDate)
+            {
+                //pengecekan jika ada tanggal libur
+                var holiday = await GetHolidaysAsync(StartDate);
+
+                if (holiday == 1)
+                {
+                    totLeave = totLeave + 0;
+                }
+
+                else
+                {
+                    StartDate = StartDate.AddDays(DayInterval);
+                    //dateList.Add(StartDate);
+                    totLeave = totLeave + 1;
+                }
+            }
+
+            TotalLeave tl = new TotalLeave();
+            tl.EmployeeId = leaveRequestVM.EmployeeId;
+            tl.TotalLeaves = totLeave;
+            myContext.Add(tl);
+            myContext.SaveChanges();
+            // return 1;
+            /* var totalLeaves=
+
+             var totalLeave = myContext.TotalLeaves.Where(p => p.EmployeeId == leaveRequestVM.EmployeeId).FirstOrDefault();
+             TotalLeave tl = new TotalLeave();
+             tl.TotalLeaves = totalLeave.TotalLeaves + 
+             myContext.Add(tl);
+             myContext.SaveChanges();*/
+
+
+            /* var newDate = myDate.ToString("dddd");
+             DateTime now = DateTime.Now;
+*/
+
         }
     }
 }
