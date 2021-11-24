@@ -17,23 +17,23 @@ namespace LeaveAPI.Repository.Data
             this.myContext = myContext;
         }
 
-        public int Register(RegisterVM registeVM)
+        public int Register(RegisterVM registerVM)
         {
             Employee e = new Employee();
-            e.FirstName = registeVM.FirstName;
-            e.LastName = registeVM.LastName;
-            e.Email = registeVM.Email;
-            e.PhoneNumber = registeVM.PhoneNumber;
-            e.HireDate = registeVM.HireDate;
+            e.FirstName = registerVM.FirstName;
+            e.LastName = registerVM.LastName;
+            e.Email = registerVM.Email;
+            e.PhoneNumber = registerVM.PhoneNumber;
+            e.HireDate = registerVM.HireDate;
             e.JobId = 1;
             e.ManagerId = null;
-            e.Gender = registeVM.Gender;
+            e.Gender = registerVM.Gender;
             myContext.Add(e);
             myContext.SaveChanges();
           
             Account a = new Account();
             a.EmployeeId = e.EmployeeId;
-            a.Password = Hashing.HashPassword(registeVM.Password);
+            a.Password = Hashing.HashPassword(registerVM.Password);
             myContext.Add(a);
             myContext.SaveChanges();
 
@@ -44,7 +44,7 @@ namespace LeaveAPI.Repository.Data
             myContext.SaveChanges();
 
             DateTime today = DateTime.Today;
-            var totalDay = (today - registeVM.HireDate).TotalDays;
+            var totalDay = (today - registerVM.HireDate).TotalDays;
             var eligibleLeave = 0;
                 if (totalDay> 365)
                 {

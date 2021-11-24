@@ -39,5 +39,14 @@ namespace LeaveClient.Repository.Data
             }
             return entity;
         }
+
+        public HttpStatusCode Register(RegisterVM entity)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync(address.link + request + "Register/", content).Result;
+            return result.StatusCode;
+        }
+
+       
     }
 }

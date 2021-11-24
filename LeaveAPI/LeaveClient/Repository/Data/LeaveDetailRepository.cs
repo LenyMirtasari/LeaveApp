@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LeaveClient.Repository.Data
@@ -36,6 +38,13 @@ namespace LeaveClient.Repository.Data
                 entities = JsonConvert.DeserializeObject<List<RequesterHistoryVM>>(apiResponse);
             }
             return entities;
+        }
+
+        public HttpStatusCode LeaveRequest(LeaveRequestVM entity)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync(address.link + request + "Register/", content).Result;
+            return result.StatusCode;
         }
     }
 }

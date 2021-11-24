@@ -1,4 +1,5 @@
 ﻿using LeaveAPI.Models;
+using LeaveAPI.ViewModel;
 using LeaveClient.Base.Controllers;
 using LeaveClient.Repository.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,20 @@ namespace LeaveClient.Controllers
         {
             return View();
         }
+
+        public IActionResult LeaveRequestV()
+        {
+            return View();
+        }
         public async Task<JsonResult> GetHistory(int id)
         {
             var result = await repository.GetHistory(id);
+            return Json(result);
+        }
+
+        public JsonResult LeaveRequest(LeaveRequestVM leaveRequestVM)
+        {
+            var result = repository.LeaveRequest(leaveRequestVM);
             return Json(result);
         }
     }

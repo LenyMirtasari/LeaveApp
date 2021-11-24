@@ -1,4 +1,5 @@
 ﻿using LeaveAPI.Models;
+using LeaveAPI.ViewModel;
 using LeaveClient.Base.Controllers;
 using LeaveClient.Repository.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,12 @@ namespace LeaveClient.Controllers
         public async Task<JsonResult> Requester(int id)
         {
             var result = await repository.Requester(id);
+            return Json(result);
+        }
+
+        public JsonResult Register(RegisterVM registerVM)
+        {
+            var result = repository.Register(registerVM);
             return Json(result);
         }
 
