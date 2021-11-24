@@ -1,0 +1,171 @@
+﻿@{
+    ViewData["Title"] = "RequestLeave";
+    Layout = "_LayoutLeaveApp";
+}
+
+
+<h1>Request Leave</h1>
+
+<!-- Modal -->
+<div class="wrapper">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card m-b-20">
+                    <div class="card-body" style="padding-left: 100px; padding-right: 100px;">
+                        <br>
+                        <h4>Requester Information</h4>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">ID :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Full Name :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Email :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Phone Number :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Available Leave (Last Year) :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Available Leave (Current Year) :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Total Leave :</label>
+                            <span class="col-md-7"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request">Eligible Leave :</label>
+                            <span class="col-md-7" id="eligibleText"></span>
+                            <input type="hidden" id="eligibleValue" name="eligibleValue" value="2">
+                        </div>
+                        <br>
+
+                        <div class="card">
+                            <div class="card-header">Leave Request Detail</div>
+                            <form id="formRequestLeave" action="saveLeaveRequest" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="_csrf" value="ad588547-c5e4-4f16-b586-cd8bf21dfb5e" />
+
+                                <div class="card-body">
+                                    <div id="alertReminder"></div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-md-4 col-form-label">
+                                            Request Number :
+                                        </label>
+                                        <div class="col-md-7 col-form-label">
+                                            <span></span>
+                                            <input type="hidden" value="" name="idLeave" id="idLeave">
+                                            <input type="hidden" value="" name="employeeId" id="employeeId">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">Manager ID:</label>
+                                        <div class="col-md-7">
+                                            <span></span>
+                                            <input type="hidden" value="" name="managerId" id="managerId">
+                                            <input type="hidden" value="" name="employeeId" id="employeeId">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">Leave Type ID:</label>
+                                        <div class="col-md-7">
+                                            <select class="form-control" id="grupType" name="grupType">
+                                                <option value="1">1 - Cuti Tahunan</option>
+                                                <option value="2">2 - Pekerja Menikah</option>
+                                                <option value="3">3 - Anak Pekerja Menikah</option>
+                                                <option value="4">4 - Mengkhitan Anak</option>
+                                                <option value="5">5 - Membaptis Anak</option>
+                                                <option value="6">6 - Suami/Istri, Orang Tua, Anak, Menantu meninggal dunia</option>
+                                                <option value="7">7 - Anggota Keluarga dalam satu rumah meninggal dunia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">Leave Date :</label>
+                                        <div class="col-md-7">
+                                            <span>
+                                                <div class="input-daterange input-group" id="date-range">
+                                                    <input id="startDate" type="text" class="form-control" name="startDate"
+                                                           placeholder="Start Date" autocomplete="off" onchange="dateValidation()" />
+                                                    <input type="text" id="setFromDate" hidden="" />
+                                                    <input id="endDate" type="text" class="form-control" name="endDate"
+                                                           placeholder="End Date" autocomplete="off" onchange="leaveDate()" />
+                                                </div>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">Notes :</label>
+                                        <div class="col-md-7">
+                                            <textarea id="notes" name="notes" class="form-control" maxlength="225" rows="3"
+                                                      placeholder="This notes has a limit of 225 chars."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-md-4 col-form-label">
+                                            Leave
+                                            Days :
+                                        </label>
+                                        <div class="col-md-4 col-form-label">
+                                            <span id="leaveDayText">0</span> days
+                                            <input type="hidden" id="leaveDayValue" name="leaveDayValue">
+                                        </div>
+                                        <label for="example-text-input" class="col-md-1 col-form-label">Holidays :</label>
+                                        <div class="col-md-2 col-form-label">
+                                            <span id="holidayText">0</span> days
+                                            <input type="hidden" id="holidayValue" name="holidayValue" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-md-4 col-form-label">
+                                            Leave Given from
+                                            Leave Type :
+                                        </label>
+                                        <div class="col-md-7 col-form-label">
+                                            <span id="leaveGivenText" name="leavegiven">0</span> days
+                                            <input type="hidden" id="leaveGivenValue" name="leavegiven" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-md-4 col-form-label">
+                                            Total Leave
+                                            Deduction :
+                                        </label>
+                                        <div class="col-md-7 col-form-label">
+                                            <span id="lastYearText">0</span> day(s) from last Year,
+                                            <span id="currentYearText">0</span> day(s) from current Year
+                                            <input type="hidden" id="reduceLastValue" name="reduceLast" placeholder="Reduce Last" />
+                                            <input type="hidden" id="reduceCurrentValue" name="reduceCurrent" placeholder="Reduce Current" />
+                                            <input type="checkbox" name="cboxBackup" class="custom-control-input"
+                                                   id="customControlInline"><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row m-t-20">
+                                    <div class="col-12 text-right pr-5">
+                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div> <!-- end container -->
+</div>
+<!-- end wrapper -->
