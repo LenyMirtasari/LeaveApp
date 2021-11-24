@@ -94,12 +94,12 @@ namespace LeaveAPI.Repository.Data
             return 0;
         }
 
-        public Object GetProfile(int Key)
+        public Object GetRequester(int Key)
         {
             var result = from emp in myContext.Employees                      
                          join job in myContext.Jobs on emp.JobId equals job.JobId
                          join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
-                         where emp.EmployeeId == Key
+                         where tl.EmployeeId == Key
                          select new RequesterInfoVM()
                          {
                              ID = Key,
@@ -108,13 +108,14 @@ namespace LeaveAPI.Repository.Data
                              Email = emp.Email,
                              PhoneNumber = emp.PhoneNumber,
                              ManagerId = emp.ManagerId,
+                             TotalLeaveId = tl.TotalLeaveId,
                              EligibleLeave = tl.EligibleLeave,
                              LastYear = tl.LastYear,
                              CurrentYear = tl.CurrentYear,
                              TotalLeaves = tl.TotalLeaves
                          };
-
-            return result;
+           
+            return result.OrderByDescending(x=>x.TotalLeaveId).First();
         }
 
         public int GetLogin(string emailInput, string passwordInput)

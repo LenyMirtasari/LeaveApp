@@ -82,7 +82,7 @@ namespace LeaveAPI.Controllers
 
         [Route("Requester/{Key}")]
         [HttpGet]
-        public ActionResult GetProfile(int Key)
+        public ActionResult Requester(int Key)
         {
             var check = repository.GetEmployeeCheck(Key);
             if (check == 0)
@@ -91,7 +91,7 @@ namespace LeaveAPI.Controllers
             }
             else
             {
-                var result = repository.GetProfile(Key);
+                var result = repository.GetRequester(Key);
                 return Ok(result);
             }
         }

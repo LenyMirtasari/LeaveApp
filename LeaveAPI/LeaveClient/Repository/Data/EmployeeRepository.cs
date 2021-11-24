@@ -27,11 +27,17 @@ namespace LeaveClient.Repository.Data
             };
 
         }
-        public HttpStatusCode Register(RegisterVM entity)
+
+        public async Task<RequesterInfoVM> Requester(int id)
         {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(address.link + request + "Register/", content).Result;
-            return result.StatusCode;
+            RequesterInfoVM entity = null;
+
+            using (var response = await httpClient.GetAsync(request + "Requester/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entity = JsonConvert.DeserializeObject<RequesterInfoVM>(apiResponse);
+            }
+            return entity;
         }
     }
 }

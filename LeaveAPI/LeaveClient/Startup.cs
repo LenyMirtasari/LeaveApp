@@ -26,6 +26,7 @@ namespace LeaveClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<LeaveDetailRepository>();
+            services.AddScoped<EmployeeRepository>();
             services.AddScoped<Address>();
             services.AddControllersWithViews();
             //buat connect api
