@@ -219,7 +219,7 @@ namespace LeaveAPI.Repository.Data
                          join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
                          join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
                          join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
-                         where emp.EmployeeId == Key
+                         where ld.EmployeeId == Key 
                          select new RequesterHistoryVM()
                          {
                              ID = Key,
@@ -233,7 +233,7 @@ namespace LeaveAPI.Repository.Data
                              LeaveTypeName = lt.LeaveTypeName
                          };
 
-            return result;
+            return result.Distinct();
         }
     }
 }

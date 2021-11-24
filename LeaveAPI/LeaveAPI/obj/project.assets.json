@@ -1483,22 +1483,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "LeaveClient/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
-        },
-        "compile": {
-          "bin/placeholder/LeaveClient.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/LeaveClient.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
       }
     }
   },
@@ -5590,17 +5574,11 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
-    },
-    "LeaveClient/1.0.0": {
-      "type": "project",
-      "path": "../LeaveClient/LeaveClient.csproj",
-      "msbuildProject": "../LeaveClient/LeaveClient.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "BCrypt.Net-Core >= 1.6.0",
-      "LeaveClient >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.18",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 3.1.20",
       "Microsoft.EntityFrameworkCore >= 5.0.11",
@@ -5636,11 +5614,7 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {
-            "D:\\MCC\\LeaveApp\\LeaveAPI\\LeaveClient\\LeaveClient.csproj": {
-              "projectPath": "D:\\MCC\\LeaveApp\\LeaveAPI\\LeaveClient\\LeaveClient.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

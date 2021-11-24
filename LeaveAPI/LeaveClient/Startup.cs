@@ -1,3 +1,5 @@
+using LeaveClient.Base.Urls;
+using LeaveClient.Repository.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,7 +25,12 @@ namespace LeaveClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<LeaveDetailRepository>();
+            services.AddScoped<Address>();
             services.AddControllersWithViews();
+            //buat connect api
+            services.AddSession();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +50,7 @@ namespace LeaveClient
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
