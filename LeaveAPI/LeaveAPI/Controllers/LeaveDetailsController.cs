@@ -55,18 +55,26 @@ namespace LeaveAPI.Controllers
         }
 
         [Route("Approve/{Key}")]
-        [HttpPost]
-        public ActionResult SignManager(int key)
+        [HttpPut]
+        public ActionResult Approve(int key)
         {
             try
             {
-                var result = repository.SignManager(key);
+                var result = repository.Approve(key);
                 return Ok(new { status = HttpStatusCode.OK, result, message = "Data Updated" });
             }
             catch (Exception)
             {
                 return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
             }
+        }
+
+        [Route("GetHistory/{Key}")]
+        [HttpGet]
+        public ActionResult GetHistory(int key)
+        {
+            var data = repository.GetHistory(key);
+            return Ok(data);
         }
     }
 }

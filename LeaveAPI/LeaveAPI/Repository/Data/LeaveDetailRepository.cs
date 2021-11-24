@@ -71,6 +71,7 @@ namespace LeaveAPI.Repository.Data
             DateTime Expires = date;
             return DateTime.Now.CompareTo(Expires.Add(new TimeSpan(2, 0, 0))) > 0;
         }
+
         public int LeaveRequest(LeaveRequestVM leaveRequestVM)
         {
             DateTime StartDate = leaveRequestVM.StartDate;
@@ -146,19 +147,35 @@ namespace LeaveAPI.Repository.Data
 
         }
 
-        public int ManageBy(ManagerVM managerVM)
+        public int Approve(int key)
         {
-            Employee f = myContext.Employees.FirstOrDefault(x => x.EmployeeId == managerVM.EmployeeId);
-            f.ManagerId = managerVM.ManagerId;
+            var approve = myContext.LeaveDetails.Where(a => a.EmployeeId == key).ToList();
+            LeaveDetail f = approve.OrderByDescending(x => x.LeaveDetailId).First();
+            f.Approval = true;
             var result = myContext.SaveChanges();
             return result;
         }
 
-        public async void HistoryRequest(HistoryRequestVM historyRequestVM)
+        public Object GetHistory(int Key)
         {
-            LeaveDetail ld = new LeaveDetail();
-
-
+            var result = from emp in myContext.Employees
+                         join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
+                         join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
+                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
+                         where emp.EmployeeId == Key
+                         select new RequesterHistoryVM()
+                         {
+                             ID = Key,
+                             LeaveId = ld.LeaveDetailId,
+                             FullName = emp.FirstName + " " + emp.LastName,
+                             StartDate = ld.StartDate,
+                             EndDate = ld.EndDate,
+                             Note = ld.Note,
+                             SubmitDate = ld.SubmitDate,
+                             Approval = ld.Approval,
+                             LeaveTypeName = lt.LeaveTypeName
+                         };
+            return result;
         }
     }
 }
