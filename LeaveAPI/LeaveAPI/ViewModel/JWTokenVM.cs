@@ -9,5 +9,7 @@ namespace LeaveAPI.ViewModel
     {
         public string Messages { get; set; }
         public string Token { get; set; }
+        public string[] RoleName { get; set; }
+        public int EmployeeId { get; set; }
     }
 }

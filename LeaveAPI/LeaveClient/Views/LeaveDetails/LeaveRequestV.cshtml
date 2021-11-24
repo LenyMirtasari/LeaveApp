@@ -54,8 +54,8 @@
                         <div class="card">
                             <div class="card-header">Leave Request Detail</div>
                             <form id="formRequestLeave" action="saveLeaveRequest" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="_csrf" value="ad588547-c5e4-4f16-b586-cd8bf21dfb5e" />
 
+                                <input id="employeeId1" type="hidden" name="name" value="" disabled />
                                 <div class="card-body">
                                     <div id="alertReminder"></div>
                                     <div class="form-group row">
@@ -64,29 +64,23 @@
                                         </label>
                                         <div class="col-md-7 col-form-label">
                                             <span></span>
-                                            <input type="" value="coba" placeholder="" name="idLeave" id="idLeave" disabled>
-                                            <input type="hidden" value="" name="employeeId" id="employeeId">
+                                            <input id="rNumber" type="text" name="name" value="" disabled />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label">Manager ID:</label>
                                         <div class="col-md-7">
                                             <span></span>
-                                            <input type="hidden" value="" name="managerId" id="managerId">
-                                            <input type="hidden" value="" name="employeeId" id="employeeId">
+                                            <input id="managerId" type="text" name="name" value="" disabled />
+
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label">Leave Type ID:</label>
                                         <div class="col-md-7">
-                                            <select class="form-control" id="grupType" name="grupType">
-                                                <option value="1">1 - Cuti Tahunan</option>
-                                                <option value="2">2 - Pekerja Menikah</option>
-                                                <option value="3">3 - Anak Pekerja Menikah</option>
-                                                <option value="4">4 - Mengkhitan Anak</option>
-                                                <option value="5">5 - Membaptis Anak</option>
-                                                <option value="6">6 - Suami/Istri, Orang Tua, Anak, Menantu meninggal dunia</option>
-                                                <option value="7">7 - Anggota Keluarga dalam satu rumah meninggal dunia</option>
+                                            <select id="LeaveType" name="LeaveType" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
                                             </select>
                                         </div>
                                     </div>
@@ -96,10 +90,10 @@
                                             <span>
                                                 <div class="input-daterange input-group" id="date-range">
                                                     <input id="startDate" type="date" class="form-control" name="startDate"
-                                                           placeholder="Start Date" autocomplete="off" onchange="dateValidation()" />
+                                                           placeholder="Start Date" />
                                                     <input type="text" id="setFromDate" hidden="" />
                                                     <input id="endDate" type="date" class="form-control" name="endDate"
-                                                           placeholder="End Date" autocomplete="off" onchange="leaveDate()" />
+                                                           placeholder="End Date" />
                                                 </div>
                                             </span>
 
@@ -112,17 +106,19 @@
                                                       placeholder="This notes has a limit of 225 chars."></textarea>
                                         </div>
                                     </div>
-                                   
-                                   
-                                    
+
+
+
                                 </div>
+                            </form>
                                 <div class="form-group row m-t-20">
                                     <div class="col-12 text-right pr-5">
-                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
+
+                                        <button type="submit" id="submit" class="btn btn-primary" onclick="Insert()" >Save</button>
                                     </div>
                                 </div>
 
-                            </form>
+                            
                         </div>
                         <br>
                     </div>

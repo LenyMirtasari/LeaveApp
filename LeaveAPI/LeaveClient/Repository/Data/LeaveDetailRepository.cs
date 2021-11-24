@@ -40,10 +40,17 @@ namespace LeaveClient.Repository.Data
             return entities;
         }
 
+        /* public HttpStatusCode LeaveRequest(LeaveRequestVM entity)
+         {
+             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+             var result = httpClient.PostAsync(address.link + request + "LeaveRequest/", content).Result;
+             return result.StatusCode;
+         }*/
+
         public HttpStatusCode LeaveRequest(LeaveRequestVM entity)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(address.link + request + "Register/", content).Result;
+            var result = httpClient.PostAsync(address.link + request + "LeaveRequest/", content).Result;
             return result.StatusCode;
         }
     }

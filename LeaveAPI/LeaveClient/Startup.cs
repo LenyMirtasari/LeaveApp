@@ -2,6 +2,7 @@ using LeaveClient.Base.Urls;
 using LeaveClient.Repository.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace LeaveClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<LoginRepository>();
             services.AddScoped<LeaveDetailRepository>();
             services.AddScoped<EmployeeRepository>();
             services.AddScoped<Address>();
@@ -51,6 +53,16 @@ namespace LeaveClient
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
+            app.Use(async (context, next) =>
+            {
+                var JWToken = context.Session.GetString("JWToken");
+                if (!string.IsNullOrEmpty(JWToken))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + JWToken);
+                }
+                await next();
+            });
             app.UseAuthentication();
             app.UseAuthorization();
 

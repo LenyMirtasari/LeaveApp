@@ -87,6 +87,14 @@ namespace LeaveAPI.Controllers
             return Ok(data);
         }
 
+        [Route("GetRequestNumber")]
+        [HttpGet]
+        public ActionResult GetRequestNumber()
+        {
+            var data = repository.GetRequestNumber();
+            return Ok(data);
+        }
+
 
     }
 }

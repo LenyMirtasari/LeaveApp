@@ -32,6 +32,12 @@ namespace LeaveClient.Controllers
             return Json(result);
         }
 
+        /*public JsonResult LeaveRequest(LeaveRequestVM leaveRequestVM)
+        {
+            var result = repository.LeaveRequest(leaveRequestVM);
+            return Json(result);
+        }*/
+
         public JsonResult LeaveRequest(LeaveRequestVM leaveRequestVM)
         {
             var result = repository.LeaveRequest(leaveRequestVM);

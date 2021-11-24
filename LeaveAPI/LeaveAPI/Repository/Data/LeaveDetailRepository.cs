@@ -235,5 +235,13 @@ namespace LeaveAPI.Repository.Data
 
             return result.Distinct();
         }
+
+        public int GetRequestNumber()
+        {
+       
+            LeaveDetail f = myContext.LeaveDetails.OrderByDescending(x => x.LeaveDetailId).First();
+            var number =f.LeaveDetailId +1;
+            return number;
+        }
     }
 }

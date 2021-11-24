@@ -108,6 +108,7 @@ namespace LeaveAPI.Repository.Data
                              Email = emp.Email,
                              PhoneNumber = emp.PhoneNumber,
                              ManagerId = emp.ManagerId,
+
                              TotalLeaveId = tl.TotalLeaveId,
                              EligibleLeave = tl.EligibleLeave,
                              LastYear = tl.LastYear,
@@ -150,9 +151,9 @@ namespace LeaveAPI.Repository.Data
             return 3;
         }
 
-        public string[] GetUserRole(string emailInput)
+        public string[] GetUserRole(LoginVM loginVM)
         {
-            var id = (from emp in myContext.Employees where emp.Email == emailInput select emp.EmployeeId).FirstOrDefault();
+            var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();
             var roles = myContext.AccountRoles.Where(a => a.EmployeeId == id).ToList();
             List<string> result = new List<string>();
             foreach (var item in roles)
@@ -160,6 +161,11 @@ namespace LeaveAPI.Repository.Data
                 result.Add(myContext.Roles.Where(a => a.RoleId == item.RoleId).First().RoleName);
             }
             return result.ToArray();
+        }
+        public int GetEmployeeId(LoginVM loginVM)
+        {
+            var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();         
+            return id;
         }
     }
 }

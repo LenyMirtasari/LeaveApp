@@ -104,16 +104,16 @@ namespace LeaveAPI.Controllers
 
             if (check == 1)
             {
-                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Wrong Email " });
+                return BadRequest(new JWTokenVM { Messages = "Email/Password Salah", Token = null });
 
             }
             else if (check == 2)
             {
-                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Wrong Password " });
+                return BadRequest(new JWTokenVM { Messages = "Email/Password Salah", Token = null });
             }
             else
             {
-                var getUserRoles = repository.GetUserRole(loginVM.Email);
+                var getUserRoles = repository.GetUserRole(loginVM);
 
                 var data = new LoginDataVM()
                 {
@@ -138,8 +138,10 @@ namespace LeaveAPI.Controllers
                             );
                 var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
                 claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-                return Ok(new JWTokenVM { Token = idtoken, Messages = "Login Success " });
+                return Ok(new JWTokenVM { Messages = "Login Berhasil", Token = idtoken, RoleName = repository.GetUserRole(loginVM),
+                EmployeeId= repository.GetEmployeeId(loginVM) });
             }
+           
         }
 
         [Authorize]
