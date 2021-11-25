@@ -28,7 +28,8 @@ namespace LeaveClient.Controllers
             var jwtToken = await repository.Auth(login);
             var token = jwtToken.Token;
             var roleName = jwtToken.RoleName;
-            string employeeId = jwtToken.EmployeeId.ToString();
+            var employeeId = jwtToken.EmployeeId.ToString();
+          
            // int aa = roleName.Count();
             if (token == null)
             {
@@ -36,9 +37,10 @@ namespace LeaveClient.Controllers
             }
 
             HttpContext.Session.SetString("JWToken", token);
+            HttpContext.Session.SetString("JWToken", employeeId);
             if (roleName.Count()==2)
             {
-                return RedirectToAction("LeaveRequestV", "LeaveDetails", employeeId);
+                return RedirectToAction("LeaveRequestV", "LeaveDetails" );
             }
 
             /*foreach (var a in roleName)

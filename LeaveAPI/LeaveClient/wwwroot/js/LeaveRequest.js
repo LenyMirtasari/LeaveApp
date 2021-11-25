@@ -13,6 +13,7 @@
             $("#totalLeaves").val(result.totalLeaves);
             $("#eligibleLeave").val(result.eligibleLeave);
             $("#managerId").val(result.managerId);
+            $("#managerName").val(result.managerName);
         }
     })
 });
@@ -42,6 +43,8 @@ $(document).ready(function () {
     })
 });
 
+
+
 function Insert() {
     var obj = new Object();
     obj.EmployeeId = $("#employeeId1").val();
@@ -52,11 +55,10 @@ function Insert() {
     obj.Note = $("#notes").val();
 
     console.log(obj);
-    //isi dari object kalian buat sesuai dengan bentuk object yang akan di post
     $.ajax({
         url: "/LeaveDetails/LeaveRequest",
         type: "POST",
-        'data': obj, //objek kalian
+        'data': obj, 
         'dataType': 'json',
     }).done((result) => {
         console.log(result);
@@ -66,17 +68,72 @@ function Insert() {
                 'Data Inserted!',
                 'success'
             )
-        } 
+        }
+        if (result == 404) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Date has passed !'
+            })
+        }
+        if (result == 400) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Eligible Leave Not Available !'
+            })
+        }
 
     }).fail((error) => {
-        console.log(error)
+        console.log(error)     
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Leave Request Failed !'          
+            })       
+    })
+}
+
+$("#formRequestLeave").validate({
+    rules: {
+        LeaveType: {
+            required: true
+        },
+        startDate: {
+            required: true
+        },
+        endDate: {
+            required: true
+        },
+        notes: {
+         /*   minlength: 50,*/
+            maxlength: 225,
+            required: true
+        }
+    },
+    errorPlacement: function (error, element) {
+        error.insertAfter(element);
+    },
+    highlight: function (element) {
+        $(element).closest('.form-control').addClass('is-invalid');
+    },
+    unhighlight: function (element) {
+        $(element).closest('.form-control').removeClass('is-invalid');
+    }
+});
+
+function Validation() {
+    var a = $("#formRequestLeave").valid();
+    console.log(a);
+    if (a == true) {
+        Insert();
+    } else {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Register Failed!',
+            text: 'Leave Request Failed!',
             footer: 'All columns must be filled !'
 
         })
-    })
-    /* }*/
+    }
 }

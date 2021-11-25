@@ -108,7 +108,9 @@ namespace LeaveAPI.Repository.Data
                              Email = emp.Email,
                              PhoneNumber = emp.PhoneNumber,
                              ManagerId = emp.ManagerId,
-
+                             ManagerName = (from e in myContext.Employees where e.EmployeeId == emp.ManagerId select e.FirstName).FirstOrDefault()+" "+
+                             (from e in myContext.Employees where e.EmployeeId == emp.ManagerId select e.LastName).FirstOrDefault()
+                             ,
                              TotalLeaveId = tl.TotalLeaveId,
                              EligibleLeave = tl.EligibleLeave,
                              LastYear = tl.LastYear,

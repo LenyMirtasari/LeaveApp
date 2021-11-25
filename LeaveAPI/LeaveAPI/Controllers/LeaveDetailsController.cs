@@ -55,7 +55,7 @@ namespace LeaveAPI.Controllers
             }
             else if (result == 2)
             {
-                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Eligible Leave Not Available" });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = "", message = "Eligible Leave Not Available" });
             }
             else
             {
