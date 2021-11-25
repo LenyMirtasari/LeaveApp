@@ -40,18 +40,26 @@ namespace LeaveClient.Repository.Data
             return entities;
         }
 
-        /* public HttpStatusCode LeaveRequest(LeaveRequestVM entity)
-         {
-             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-             var result = httpClient.PostAsync(address.link + request + "LeaveRequest/", content).Result;
-             return result.StatusCode;
-         }*/
-
         public HttpStatusCode LeaveRequest(LeaveRequestVM entity)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
             var result = httpClient.PostAsync(address.link + request + "LeaveRequest/", content).Result;
             return result.StatusCode;
         }
+
+   
+        public async Task<LeaveDetailVM> GetLeaveDetail(int id)
+        {
+            LeaveDetailVM entity = null;
+
+            using (var response = await httpClient.GetAsync(request + "GetLeaveDetail/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entity = JsonConvert.DeserializeObject<LeaveDetailVM>(apiResponse);
+            }
+            return entity;
+        }
+
+
     }
 }

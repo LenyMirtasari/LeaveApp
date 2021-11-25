@@ -26,22 +26,30 @@ namespace LeaveClient.Controllers
         {
             return View();
         }
+
+        public IActionResult LeaveManager()
+        {
+            return View();
+        }
         public async Task<JsonResult> GetHistory(int id)
         {
             var result = await repository.GetHistory(id);
             return Json(result);
         }
 
-        /*public JsonResult LeaveRequest(LeaveRequestVM leaveRequestVM)
-        {
-            var result = repository.LeaveRequest(leaveRequestVM);
-            return Json(result);
-        }*/
 
         public JsonResult LeaveRequest(LeaveRequestVM leaveRequestVM)
         {
             var result = repository.LeaveRequest(leaveRequestVM);
             return Json(result);
         }
+
+        public async Task<JsonResult> GetLeaveDetail(int id)
+        {
+            var result = await repository.GetLeaveDetail(id);
+            return Json(result);
+        }
+
+       
     }
 }

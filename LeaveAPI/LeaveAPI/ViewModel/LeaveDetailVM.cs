@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LeaveAPI.ViewModel
 {
-    public class RequesterManagerVM
+    public class LeaveDetailVM
     {
         public int LeaveDetailId { get; set; }
         public int EmployeeId { get; set; }
@@ -13,13 +13,12 @@ namespace LeaveAPI.ViewModel
         public string JobTittle { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime SubmitDate{ get; set; }
+        public DateTime SubmitDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Note { get; set; }
         public bool Approval { get; set; }
 
         public string LeaveType { get; set; }
-
     }
 }

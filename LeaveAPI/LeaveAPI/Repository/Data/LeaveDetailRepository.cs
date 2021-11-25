@@ -20,7 +20,7 @@ namespace LeaveAPI.Repository.Data
             this.myContext = myContext;
         }
         private const string url = "https://api-harilibur.vercel.app/api";
-        public object[] Get()
+        public object[] GetDate()
         {
             HttpClient http = new HttpClient();
             http.DefaultRequestHeaders.Add("APIKey", "Application/Json");
@@ -215,7 +215,6 @@ namespace LeaveAPI.Repository.Data
         public int Disapprove(int key)
         {
             LeaveDetail f = myContext.LeaveDetails.Where(a => a.LeaveDetailId == key).First();
-            f.Approval = false;
             var totalLeaves = myContext.TotalLeaves.Where(a => a.EmployeeId == f.EmployeeId).OrderByDescending(x => x.TotalLeaveId).First();
             var entity = myContext.TotalLeaves.Find(totalLeaves.TotalLeaveId);
             myContext.Remove(entity);
@@ -252,6 +251,32 @@ namespace LeaveAPI.Repository.Data
             LeaveDetail f = myContext.LeaveDetails.OrderByDescending(x => x.LeaveDetailId).First();
             var number =f.LeaveDetailId +1;
             return number;
+        }
+
+        public object GetLeaveDetail(int key)
+        {
+            var result = from emp in myContext.Employees
+                         join job in myContext.Jobs on emp.JobId equals job.JobId
+                         join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
+                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
+                         where ld.LeaveDetailId == key 
+                         select new LeaveDetailVM()
+                         {
+                             LeaveDetailId = ld.LeaveDetailId,
+                             EmployeeId = emp.EmployeeId,
+                             FullName = emp.FirstName + " " + emp.LastName,
+                             JobTittle = job.JobTitle,
+                             Email = emp.Email,
+                             PhoneNumber = emp.PhoneNumber,
+                             SubmitDate = ld.SubmitDate,
+                             Approval = ld.Approval,
+                             StartDate = ld.StartDate,
+                             EndDate = ld.EndDate,
+                             Note = ld.Note,
+                             LeaveType = lt.LeaveTypeName
+                         };
+
+            return result.First();
         }
     }
 }

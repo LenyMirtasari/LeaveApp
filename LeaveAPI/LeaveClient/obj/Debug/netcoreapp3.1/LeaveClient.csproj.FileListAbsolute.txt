@@ -75,12 +75,15 @@ D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\scopedcss\bundle\Le
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.TagHelpers.input.cache
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.TagHelpers.output.cache
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.RazorCoreGenerate.cache
+D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Employees\LeaveManager.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\LeaveDetails\History.cshtml.g.cs
+D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\LeaveDetails\LeaveRequestV.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Login\Index.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutLeaveApp.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LeaveLayout.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
@@ -92,5 +95,3 @@ D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.csproj.
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.dll
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.pdb
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.genruntimeconfig.cache
-D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutLeaveApp.cshtml.g.cs
-D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\LeaveDetails\LeaveRequestV.cshtml.g.cs

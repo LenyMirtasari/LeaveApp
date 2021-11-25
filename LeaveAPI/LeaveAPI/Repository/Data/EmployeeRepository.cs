@@ -126,6 +126,7 @@ namespace LeaveAPI.Repository.Data
             var result = from emp in myContext.Employees
                          join job in myContext.Jobs on emp.JobId equals job.JobId
                          join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
+                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
                          where ld.ManagerId == Key && ld.Approval == false
                          select new RequesterManagerVM()
                          {
@@ -136,7 +137,11 @@ namespace LeaveAPI.Repository.Data
                              Email = emp.Email,
                              PhoneNumber = emp.PhoneNumber,
                              SubmitDate = ld.SubmitDate,
-                             Approval = ld.Approval
+                             Approval = ld.Approval,
+                             StartDate = ld.StartDate,
+                             EndDate = ld.EndDate,
+                             Note = ld.Note,
+                             LeaveType = lt.LeaveTypeName
                          };
 
             return result;

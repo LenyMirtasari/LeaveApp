@@ -24,6 +24,12 @@ namespace LeaveClient.Controllers
             return Json(result);
         }
 
+        public async Task<JsonResult> RequesterManager(int id)
+        {
+            var result = await repository.RequesterManager(id);
+            return Json(result);
+        }
+
         public JsonResult Register(RegisterVM registerVM)
         {
             var result = repository.Register(registerVM);
@@ -31,6 +37,11 @@ namespace LeaveClient.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult LeaveManager()
         {
             return View();
         }

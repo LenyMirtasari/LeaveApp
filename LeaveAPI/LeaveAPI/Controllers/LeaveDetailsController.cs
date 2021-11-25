@@ -28,7 +28,7 @@ namespace LeaveAPI.Controllers
         [HttpGet]
         public ActionResult GetAPI()
         {
-            var data = repository.Get();
+            var data = repository.GetDate();
             return Ok(data);
         }
 
@@ -75,12 +75,12 @@ namespace LeaveAPI.Controllers
             }
             catch (Exception)
             {
-                return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Data Update Failed" });
             }
         }
 
         [Route("Disapprove/{Key}")]
-        [HttpPut]
+        [HttpDelete]
         public ActionResult Disapprove(int key)
         {
             try
@@ -90,7 +90,7 @@ namespace LeaveAPI.Controllers
             }
             catch (Exception)
             {
-                return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Data Update Failed" });
             }
         }
 
@@ -107,6 +107,14 @@ namespace LeaveAPI.Controllers
         public ActionResult GetRequestNumber()
         {
             var data = repository.GetRequestNumber();
+            return Ok(data);
+        }
+
+        [Route("GetLeaveDetail/{Key}")]
+        [HttpGet]
+        public ActionResult GetLeaveDetail(int key)
+        {
+            var data = repository.GetLeaveDetail(key);
             return Ok(data);
         }
 

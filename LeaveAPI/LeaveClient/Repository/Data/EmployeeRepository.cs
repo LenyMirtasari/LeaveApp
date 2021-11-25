@@ -40,6 +40,19 @@ namespace LeaveClient.Repository.Data
             return entity;
         }
 
+        public async Task<List<RequesterManagerVM>> RequesterManager(int id)
+        {
+            List<RequesterManagerVM> entities = new List<RequesterManagerVM>();
+
+            using (var response = await httpClient.GetAsync(request + "RequesterManager/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<RequesterManagerVM>>(apiResponse);
+            }
+            return entities;
+        }
+   
+
         public HttpStatusCode Register(RegisterVM entity)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
