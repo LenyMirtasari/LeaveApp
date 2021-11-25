@@ -96,6 +96,22 @@ namespace LeaveAPI.Controllers
             }
         }
 
+        [Route("RequesterManager/{Key}")]
+        [HttpGet]
+        public ActionResult RequesterManager(int Key)
+        {
+            var check = repository.GetEmployeeCheck(Key);
+            if (check == 0)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Data Not Found " });
+            }
+            else
+            {
+                var result = repository.GetRequesterManager(Key);
+                return Ok(result);
+            }
+        }
+
         [Route("Login")]
         [HttpPost]
         public ActionResult Login(LoginVM loginVM)

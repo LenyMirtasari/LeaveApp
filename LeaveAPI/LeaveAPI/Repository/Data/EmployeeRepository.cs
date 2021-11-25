@@ -121,6 +121,27 @@ namespace LeaveAPI.Repository.Data
             return result.OrderByDescending(x=>x.TotalLeaveId).First();
         }
 
+        public Object GetRequesterManager(int Key)
+        {
+            var result = from emp in myContext.Employees
+                         join job in myContext.Jobs on emp.JobId equals job.JobId
+                         join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
+                         where ld.ManagerId == Key && ld.Approval == false
+                         select new RequesterManagerVM()
+                         {
+                             LeaveDetailId = ld.LeaveDetailId, 
+                             EmployeeId = emp.EmployeeId,
+                             FullName = emp.FirstName + " " + emp.LastName,
+                             JobTittle = job.JobTitle,
+                             Email = emp.Email,
+                             PhoneNumber = emp.PhoneNumber,
+                             SubmitDate = ld.SubmitDate,
+                             Approval = ld.Approval
+                         };
+
+            return result;
+        }
+
         public int GetLogin(string emailInput, string passwordInput)
         {
             try

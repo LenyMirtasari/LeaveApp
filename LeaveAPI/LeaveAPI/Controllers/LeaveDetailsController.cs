@@ -79,6 +79,21 @@ namespace LeaveAPI.Controllers
             }
         }
 
+        [Route("Disapprove/{Key}")]
+        [HttpPut]
+        public ActionResult Disapprove(int key)
+        {
+            try
+            {
+                var result = repository.Disapprove(key);
+                return Ok(new { status = HttpStatusCode.OK, result, message = "Data Updated" });
+            }
+            catch (Exception)
+            {
+                return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
+            }
+        }
+
         [Route("GetHistory/{Key}")]
         [HttpGet]
         public ActionResult GetHistory(int key)

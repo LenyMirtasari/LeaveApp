@@ -206,9 +206,19 @@ namespace LeaveAPI.Repository.Data
 
         public int Approve(int key)
         {
-            var approve = myContext.LeaveDetails.Where(a => a.EmployeeId == key).ToList();
-            LeaveDetail f = approve.OrderByDescending(x => x.LeaveDetailId).First();
+            LeaveDetail f= myContext.LeaveDetails.Where(a => a.LeaveDetailId == key).First();
             f.Approval = true;
+            var result = myContext.SaveChanges();
+            return result;
+        }
+
+        public int Disapprove(int key)
+        {
+            LeaveDetail f = myContext.LeaveDetails.Where(a => a.LeaveDetailId == key).First();
+            f.Approval = false;
+            var totalLeaves = myContext.TotalLeaves.Where(a => a.EmployeeId == f.EmployeeId).OrderByDescending(x => x.TotalLeaveId).First();
+            var entity = myContext.TotalLeaves.Find(totalLeaves.TotalLeaveId);
+            myContext.Remove(entity);
             var result = myContext.SaveChanges();
             return result;
         }
