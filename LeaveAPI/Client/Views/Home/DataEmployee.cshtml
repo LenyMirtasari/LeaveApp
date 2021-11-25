@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Employee";
+    Layout = "_LayoutLeaveApp";
+}
+
+
+<h1>Data Employee</h1>
+
+<p></p>
+<button class="btn btn-primary fa fa-save" data-toggle="modal" data-target="#modalEmployee"> Masukkan Data </button>
+<p></p>
+
+<button class="btn btn-secondary far fa-copy" aria-hidden="true" onclick="ExportToCopy();"> Copy </button>
+<button class="btn btn-success far fa-file-excel" aria-hidden="true" onclick="ExportToExcel();"> Excel </button>
+<button class="btn btn-danger far fa-file-pdf" aria-hidden="true" onclick="ExportToPDF();"> PDF </button>
+<button class="btn btn-info" onclick="ExportToCSV();"><i class="fas fa-file-csv"></i> CSV </button>
+<p></p>
+
+<table id="tabelEmployee" class="table table-primary">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Hire Date</th>
+            <th>Job Id</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="tablePoke">
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEmployee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambahkan Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formValidation">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label>Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Hire Date</label>
+                            <input type="date" class="form-control" id="hireDate" name="hireDate" placeholder="Hire Date" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Job ID</label>
+                            <input type="number" class="form-control" id="jobId" name="jobId" placeholder="JobId" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Gender</label>
+                            <select class="form-control" id="gender">
+                                <option selected>Choose...</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="window.location.reload();">Close</button>
+                        <button id="btnDaftar" type="submit" class="btn btn-info">Daftar</button>
+                        <button id="btnUpdate" type="button" class="btn btn-warning" style="display:none;" onclick="updateData();">Simpan Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
