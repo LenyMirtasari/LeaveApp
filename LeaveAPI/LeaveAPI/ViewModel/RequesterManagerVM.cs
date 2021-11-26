@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LeaveAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace LeaveAPI.ViewModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Note { get; set; }
-        public bool Approval { get; set; }
+        public Approval Approval { get; set; }
 
         public string LeaveType { get; set; }
 

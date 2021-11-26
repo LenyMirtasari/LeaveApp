@@ -40,7 +40,7 @@ namespace LeaveClient.Controllers
             HttpContext.Session.SetString("JWToken", employeeId);
             if (roleName.Count()==2)
             {
-                return RedirectToAction("LeaveRequestV", "LeaveDetails" );
+                return RedirectToAction("LeaveManager", "Employees" );
             }
 
             /*foreach (var a in roleName)

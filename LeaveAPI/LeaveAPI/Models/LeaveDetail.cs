@@ -20,7 +20,7 @@ namespace LeaveAPI.Models
 
         public DateTime SubmitDate { get; set; }
 
-        public bool Approval { get; set; }
+        public Approval Approval { get; set; }
 
         public int ManagerId { get; set; }
 
@@ -33,5 +33,12 @@ namespace LeaveAPI.Models
   
         [JsonIgnore]
         public virtual LeaveType LeaveType{ get; set; }
+    }
+
+    public enum Approval
+    {
+        Wait,
+        Approve,
+        Reject
     }
 }

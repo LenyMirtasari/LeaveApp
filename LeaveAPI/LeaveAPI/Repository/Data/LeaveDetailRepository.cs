@@ -161,13 +161,14 @@ namespace LeaveAPI.Repository.Data
                     }
                     else { 
                         LeaveDetail ld = new LeaveDetail();
-                        ld.StartDate = StartDate;
-                        ld.EndDate = EndDate;
+                        ld.StartDate = leaveRequestVM.StartDate;
+                        ld.EndDate = leaveRequestVM.EndDate;
                         ld.Note = leaveRequestVM.Note;
                         ld.SubmitDate = DateTime.Now;
                         ld.ManagerId = leaveRequestVM.ManagerId;
                         ld.LeaveTypeId = leaveRequestVM.LeaveTypeId;
                         ld.EmployeeId = leaveRequestVM.EmployeeId;
+                        ld.Approval = Approval.Wait;
                         myContext.Add(ld);
                         myContext.SaveChanges();
                         TotalLeave tl = new TotalLeave();
@@ -182,8 +183,8 @@ namespace LeaveAPI.Repository.Data
                 else
                 {
                     LeaveDetail ld = new LeaveDetail();
-                    ld.StartDate = StartDate;
-                    ld.EndDate = EndDate;
+                    ld.StartDate = leaveRequestVM.StartDate;
+                    ld.EndDate = leaveRequestVM.EndDate;
                     ld.Note = leaveRequestVM.Note;
                     ld.SubmitDate = DateTime.Now;
                     ld.ManagerId = leaveRequestVM.ManagerId;
@@ -206,15 +207,18 @@ namespace LeaveAPI.Repository.Data
 
         public int Approve(int key)
         {
-            LeaveDetail f= myContext.LeaveDetails.Where(a => a.LeaveDetailId == key).First();
-            f.Approval = true;
+            var f = myContext.LeaveDetails.Where(a => a.LeaveDetailId == key).First();
+            f.Approval = Approval.Approve;
             var result = myContext.SaveChanges();
             return result;
         }
 
+
+
         public int Disapprove(int key)
         {
             LeaveDetail f = myContext.LeaveDetails.Where(a => a.LeaveDetailId == key).First();
+            f.Approval = Approval.Reject;
             var totalLeaves = myContext.TotalLeaves.Where(a => a.EmployeeId == f.EmployeeId).OrderByDescending(x => x.TotalLeaveId).First();
             var entity = myContext.TotalLeaves.Find(totalLeaves.TotalLeaveId);
             myContext.Remove(entity);

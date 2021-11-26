@@ -59,7 +59,7 @@ namespace LeaveAPI.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     JobId = table.Column<int>(type: "int", nullable: false),
-                    ManagerId = table.Column<int>(type: "int", nullable: false),
+                    ManagerId = table.Column<int>(type: "int", nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -107,7 +107,7 @@ namespace LeaveAPI.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubmitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Approval = table.Column<bool>(type: "bit", nullable: false),
+                    Approval = table.Column<int>(type: "int", nullable: false),
                     ManagerId = table.Column<int>(type: "int", nullable: false),
                     LeaveTypeId = table.Column<int>(type: "int", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
@@ -136,6 +136,29 @@ namespace LeaveAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tb_T_TotalLeave",
+                columns: table => new
+                {
+                    TotalLeaveId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EligibleLeave = table.Column<int>(type: "int", nullable: false),
+                    LastYear = table.Column<int>(type: "int", nullable: false),
+                    TotalLeaves = table.Column<int>(type: "int", nullable: false),
+                    CurrentYear = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tb_T_TotalLeave", x => x.TotalLeaveId);
+                    table.ForeignKey(
+                        name: "FK_Tb_T_TotalLeave_Tb_T_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Tb_T_Employee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tb_T_AccountRole",
                 columns: table => new
                 {
@@ -160,36 +183,6 @@ namespace LeaveAPI.Migrations
                         principalTable: "Tb_T_Account",
                         principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tb_T_TotalLeave",
-                columns: table => new
-                {
-                    TotalLeaveId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EligibleLeave = table.Column<int>(type: "int", nullable: false),
-                    LastYear = table.Column<int>(type: "int", nullable: false),
-                    TotalLeaves = table.Column<int>(type: "int", nullable: false),
-                    CurrentYear = table.Column<int>(type: "int", nullable: false),
-                    LeaveDetailId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tb_T_TotalLeave", x => x.TotalLeaveId);
-                    table.ForeignKey(
-                        name: "FK_Tb_T_TotalLeave_Tb_T_Employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Tb_T_Employee",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tb_T_TotalLeave_Tb_T_LeaveDetail_LeaveDetailId",
-                        column: x => x.LeaveDetailId,
-                        principalTable: "Tb_T_LeaveDetail",
-                        principalColumn: "LeaveDetailId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -245,18 +238,15 @@ namespace LeaveAPI.Migrations
                 name: "IX_Tb_T_TotalLeave_EmployeeId",
                 table: "Tb_T_TotalLeave",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tb_T_TotalLeave_LeaveDetailId",
-                table: "Tb_T_TotalLeave",
-                column: "LeaveDetailId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Tb_T_AccountRole");
+
+            migrationBuilder.DropTable(
+                name: "Tb_T_LeaveDetail");
 
             migrationBuilder.DropTable(
                 name: "Tb_T_TotalLeave");
@@ -266,9 +256,6 @@ namespace LeaveAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tb_T_Account");
-
-            migrationBuilder.DropTable(
-                name: "Tb_T_LeaveDetail");
 
             migrationBuilder.DropTable(
                 name: "Tb_M_LeaveType");

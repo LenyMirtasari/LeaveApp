@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveAPI.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20211119033944_dua")]
-    partial class dua
+    [Migration("20211125125031_satu")]
+    partial class satu
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,7 +84,7 @@ namespace LeaveAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ManagerId")
+                    b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
@@ -129,8 +129,8 @@ namespace LeaveAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Approval")
-                        .HasColumnType("bit");
+                    b.Property<int>("Approval")
+                        .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
@@ -210,13 +210,10 @@ namespace LeaveAPI.Migrations
                     b.Property<int>("EligibleLeave")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("LastYear")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LeaveDetailId")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalLeaves")
@@ -267,8 +264,7 @@ namespace LeaveAPI.Migrations
 
                     b.HasOne("LeaveAPI.Models.Employee", "Manager")
                         .WithMany("Employees")
-                        .HasForeignKey("ManagerId")
-                        .IsRequired();
+                        .HasForeignKey("ManagerId");
 
                     b.Navigation("Job");
 
@@ -304,7 +300,9 @@ namespace LeaveAPI.Migrations
                 {
                     b.HasOne("LeaveAPI.Models.Employee", "Employee")
                         .WithMany("TotalLeave")
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
                 });

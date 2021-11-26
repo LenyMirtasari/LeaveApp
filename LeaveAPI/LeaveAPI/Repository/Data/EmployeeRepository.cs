@@ -39,7 +39,7 @@ namespace LeaveAPI.Repository.Data
 
             AccountRole ar = new AccountRole();
             ar.EmployeeId = e.EmployeeId;
-            ar.RoleId = 2;
+            ar.RoleId = 1;
             myContext.Add(ar);
             myContext.SaveChanges();
 
@@ -127,7 +127,7 @@ namespace LeaveAPI.Repository.Data
                          join job in myContext.Jobs on emp.JobId equals job.JobId
                          join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
                          join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
-                         where ld.ManagerId == Key && ld.Approval == false
+                         where ld.ManagerId == Key && ld.Approval == 0
                          select new RequesterManagerVM()
                          {
                              LeaveDetailId = ld.LeaveDetailId, 
