@@ -2,6 +2,7 @@
 using LeaveAPI.ViewModel;
 using LeaveClient.Base.Controllers;
 using LeaveClient.Repository.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,9 @@ namespace LeaveClient.Controllers
         {
             return View();
         }
-        public async Task<JsonResult> GetHistory(int id)
+        public async Task<JsonResult> GetHistory()
         {
+            int id = (int)HttpContext.Session.GetInt32("SessionId");
             var result = await repository.GetHistory(id);
             return Json(result);
         }

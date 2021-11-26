@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('#leaveManager').DataTable({
         'ajax': {
-            'url': "/Employees/RequesterManager/" + 2,
+            'url': "/Employees/RequesterManager/",
             'dataSrc': ''
         },
         'columns': [
@@ -57,6 +57,7 @@ function ModalLeave(id) {
             console.log(result);
             $("#ModalLeave").modal("show");
             $("#leaveDetailId1").val(result.leaveDetailId);
+            //$("#leaveDetailId1").val(result.leaveDetailId);
             $("#employeeId1").val(result.employeeId);
             $("#fullName1").val(result.fullName);
             d = result.startDate.split('T')[0];

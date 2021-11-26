@@ -130,18 +130,21 @@ namespace LeaveAPI.Controllers
             else
             {
                 var getUserRoles = repository.GetUserRole(loginVM);
-
+                var EmployeeId = repository.GetEmployeeId(loginVM).ToString();
                 var data = new LoginDataVM()
                 {
                     Email = loginVM.Email,
                 };
+
                 var claims = new List<Claim>
                 {
                     new Claim("email", data.Email),
+                    new Claim("employeeId", EmployeeId)
                 };
                 foreach (var a in getUserRoles)
                 {
                     claims.Add(new Claim("roles", a.ToString()));
+
                 }
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

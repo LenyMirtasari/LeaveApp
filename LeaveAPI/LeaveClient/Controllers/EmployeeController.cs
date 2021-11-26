@@ -2,6 +2,8 @@
 using LeaveAPI.ViewModel;
 using LeaveClient.Base.Controllers;
 using LeaveClient.Repository.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,9 +25,10 @@ namespace LeaveClient.Controllers
             var result = await repository.Requester(id);
             return Json(result);
         }
-
-        public async Task<JsonResult> RequesterManager(int id)
+        
+        public async Task<JsonResult> RequesterManager()
         {
+            int id = (int)HttpContext.Session.GetInt32("SessionId");
             var result = await repository.RequesterManager(id);
             return Json(result);
         }
@@ -41,6 +44,8 @@ namespace LeaveClient.Controllers
             return View();
         }
 
+     
+        [Authorize(Roles = "Manager")]
         public IActionResult LeaveManager()
         {
             return View();

@@ -28,7 +28,7 @@ namespace LeaveClient.Controllers
             var jwtToken = await repository.Auth(login);
             var token = jwtToken.Token;
             var roleName = jwtToken.RoleName;
-            var employeeId = jwtToken.EmployeeId.ToString();
+            var employeeId = jwtToken.EmployeeId;
           
            // int aa = roleName.Count();
             if (token == null)
@@ -37,28 +37,21 @@ namespace LeaveClient.Controllers
             }
 
             HttpContext.Session.SetString("JWToken", token);
-            HttpContext.Session.SetString("JWToken", employeeId);
+            HttpContext.Session.SetInt32("SessionId", employeeId);
+
             if (roleName.Count()==2)
             {
                 return RedirectToAction("LeaveManager", "Employees" );
-            }
+            }         
 
-            /*foreach (var a in roleName)
-            {
-                if (a == "Employee, Manager")
-                {
-                    return RedirectToAction("LeaveRequestV", "History");
-                }
-            }*/
-
-            return RedirectToAction("Index", "Users");
+            return RedirectToAction("History", "LeaveDetails");
         }
 
         [Authorize]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("index", "Home");
+            return RedirectToAction("index", "Login");
         }
     }
 }

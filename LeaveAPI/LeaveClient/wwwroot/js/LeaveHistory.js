@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('#history').DataTable({
         'ajax': {
-            'url': "/LeaveDetails/GetHistory/"+3,
+            'url': "/LeaveDetails/GetHistory/",
             'dataSrc': ''
         },
         'columns': [
@@ -71,7 +71,7 @@ function LeaveRequest() {
     /*console.log(nik);*/
 
     $.ajax({
-        url: "/Employees/Requester/3" ,
+        url: "/Employees/Requester/" ,
         success: function (result) {
             console.log(result);
             $("#ModalLeaveRequest").modal("show");

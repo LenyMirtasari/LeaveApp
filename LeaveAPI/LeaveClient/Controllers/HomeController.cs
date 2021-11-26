@@ -1,4 +1,6 @@
 ﻿using LeaveClient.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,9 +19,9 @@ namespace LeaveClient.Controllers
         {
             _logger = logger;
         }
-
+       
         public IActionResult Index()
-        {
+        { 
             return View();
         }
 
