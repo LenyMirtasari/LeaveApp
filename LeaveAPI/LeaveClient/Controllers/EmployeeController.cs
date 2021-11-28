@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace LeaveClient.Controllers
@@ -49,6 +51,28 @@ namespace LeaveClient.Controllers
         public IActionResult LeaveManager()
         {
             return View();
+        }
+
+        public int SendEmail()
+        {
+
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("leaverequest12@gmail.com");
+                mail.To.Add("bunnystory93@gmail.com");
+                mail.Subject = "Test";
+                mail.Body = "<h1>Coba lagi</h1>";
+                mail.IsBodyHtml = true;
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new System.Net.NetworkCredential("leaverequest12@gmail.com", "Leaverequest321!");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                    return 1;
+                }
+            }
+
         }
     }
 }
