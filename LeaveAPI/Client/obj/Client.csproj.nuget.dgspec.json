@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< Updated upstream:LeaveAPI/Client/obj/Client.csproj.nuget.dgspec.json
     "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\Client\\Client.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\Client\\Client.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\Client\\obj\\",
+=======
+    "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveClient\\LeaveClient.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
+        "projectName": "LeaveAPI",
+        "projectPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\obj\\",
+>>>>>>> Stashed changes:LeaveAPI/LeaveClient/obj/LeaveClient.csproj.nuget.dgspec.json
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -75,6 +89,7 @@
         }
       }
     },
+<<<<<<< Updated upstream:LeaveAPI/Client/obj/Client.csproj.nuget.dgspec.json
     "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -83,6 +98,16 @@
         "projectPath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\HP\\Documents\\API\\LeaveAPI\\LeaveAPI\\obj\\",
+=======
+    "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveClient\\LeaveClient.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveClient\\LeaveClient.csproj",
+        "projectName": "LeaveClient",
+        "projectPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveClient\\LeaveClient.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveClient\\obj\\",
+>>>>>>> Stashed changes:LeaveAPI/LeaveClient/obj/LeaveClient.csproj.nuget.dgspec.json
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -98,7 +123,15 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
+<<<<<<< Updated upstream:LeaveAPI/Client/obj/Client.csproj.nuget.dgspec.json
             "projectReferences": {}
+=======
+            "projectReferences": {
+              "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj": {
+                "projectPath": "C:\\Users\\HP\\Documents\\GitHub\\LeaveApp\\LeaveAPI\\LeaveAPI\\LeaveAPI.csproj"
+              }
+            }
+>>>>>>> Stashed changes:LeaveAPI/LeaveClient/obj/LeaveClient.csproj.nuget.dgspec.json
           }
         },
         "warningProperties": {
