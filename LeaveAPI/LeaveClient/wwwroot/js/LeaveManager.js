@@ -84,14 +84,30 @@ function Approve(id) {
         type: "PUT",
         success: function (result) {
             console.log(result)        
-                Swal.fire(
-                    'Good job!',
-                    'Data Approve!',
-                    'success'
-                )
-                $("#ModalLeave").modal("toggle"),
-                $('#ModalLeave').modal('hide'),
-                $('#leaveManager').DataTable().ajax.reload();          
+            Swal.fire(
+                'Good job!',
+                'Data Approve!',
+                'success'
+            )
+            $.ajax({
+                url: "/Employees/EmployeeEmail/" + id,
+                success: function (data1) {
+                    console.log(data1);
+                    $.ajax({
+                        url: "/Employees/SendEmailToEmployee/",
+                        type: "POST",
+                        'data': { email: data1.email },
+                        'dataType': 'json',
+                        success: function (data) {
+                            console.log("email sent !");
+                        }
+                    })
+                }
+            })
+
+            $("#ModalLeave").modal("toggle"),
+            $('#ModalLeave').modal('hide'),
+            $('#leaveManager').DataTable().ajax.reload();          
         }
     })
 }
@@ -111,9 +127,27 @@ function Disapprove(id) {
                 'Leave Request Disapproved !',
                 'success'
             )
+
+            $.ajax({
+                url: "/Employees/EmployeeEmail/" + id,
+                success: function (data1) {
+                    console.log(data1);
+                    $.ajax({
+                        url: "/Employees/SendEmailToEmployee/",
+                        type: "POST",
+                        'data': { email: data1.email },
+                        'dataType': 'json',
+                        success: function (data) {
+                            console.log("email sent !");
+                        }
+                    })
+                }
+            })
+
+
             $("#ModalLeave").modal("toggle"),
-                $('#ModalLeave').modal('hide'),
-                $('#leaveManager').DataTable().ajax.reload();
+            $('#ModalLeave').modal('hide'),
+            $('#leaveManager').DataTable().ajax.reload();
         }
     })
 }

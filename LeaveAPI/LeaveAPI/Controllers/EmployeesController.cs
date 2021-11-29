@@ -157,10 +157,15 @@ namespace LeaveAPI.Controllers
                             );
                 var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
                 claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-                return Ok(new JWTokenVM { Messages = "Login Berhasil", Token = idtoken, RoleName = repository.GetUserRole(loginVM),
-                EmployeeId= repository.GetEmployeeId(loginVM) });
+                return Ok(new JWTokenVM
+                {
+                    Messages = "Login Berhasil",
+                    Token = idtoken,
+                    RoleName = repository.GetUserRole(loginVM),
+                    EmployeeId = repository.GetEmployeeId(loginVM)
+                });
             }
-           
+
         }
 
         [Authorize]
@@ -168,6 +173,22 @@ namespace LeaveAPI.Controllers
         public ActionResult TestJWT()
         {
             return Ok("Test JWT berhasil");
+        }
+
+        [Route("ManagerEmail/{Key}")]
+        [HttpGet]
+        public ActionResult ManagerEmail(int Key)
+        {
+            var result = repository.ManagerEmail(Key);
+            return Ok(result);
+        }
+
+        [Route("EmployeeEmail/{Key}")]
+        [HttpGet]
+        public ActionResult EmployeeEmail(int Key)
+        {
+            var result = repository.EmployeeEmail(Key);
+            return Ok(result);
         }
     }
 }

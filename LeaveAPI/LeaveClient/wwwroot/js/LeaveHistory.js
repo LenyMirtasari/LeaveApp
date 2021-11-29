@@ -68,24 +68,58 @@
 });
 
 function LeaveRequest() {
-    /*console.log(nik);*/
-
+    listSW = "";
     $.ajax({
         url: "/Employees/Requester/" ,
         success: function (result) {
             console.log(result);
             $("#ModalLeaveRequest").modal("show");
-            $("#employeeId2").val(result.id);
-            $("#fullName2").val(result.fullName);
-            $("#email2").val(result.email);
-            $("#phoneNumber2").val(result.phoneNumber);
-            $("#lastYear2").val(result.lastYear);
-            $("#currentYear2").val(result.currentYear);
-            $("#totalLeaves2").val(result.totalLeaves);
-            $("#eligibleLeave2").val(result.eligibleLeave);
             $("#managerId2").val(result.managerId);
-            $("#managerName2").val(result.managerName);
+            $("#employeeId2").val(result.id);
+            listSW += `                                                         
+	                    <div class="row form-group">                       
+                            <label class="col-md-4" for="employeeId"><strong>Employee ID</strong></label>
+                            <span class="col-md-7">: ${result.id}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Name</strong></label>
+                            <span class="col-md-7">: ${result.fullName}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Email</strong></label>
+                            <span class="col-md-7">: ${result.email}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Phone Number</strong></label>
+                            <span class="col-md-7">: ${result.phoneNumber}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Total Leave</strong></label>
+                            <span class="col-md-7">: ${result.totalLeaves}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Eligible Leave</strong></label>
+                            <span class="col-md-7">: ${result.eligibleLeave}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Manager Name</strong></label>
+                            <span class="col-md-7">: ${result.managerName}</span>
+                        </div>
+                        ` ;
 
+            $('#modal1').html(listSW);
+            list = "";
+            $.ajax({
+                url: "https://localhost:44312/API/LeaveDetails/GetRequestNumber",
+                success: function (result) {
+                    console.log(result);
+                    list += `<div class="row form-group">
+                                    <label class="col-md-4" for="employeeId"><strong>Requester Number</strong></label>
+                                    <span class="col-md-7">: ${result}</span>
+                            </div>`;
+                    $('#modal2').html(list);
+                }
+            })
         }
     })
 }
@@ -140,9 +174,27 @@ function Insert() {
                 'Data Inserted!',
                 'success'
             )
-                $("#ModalLeaveRequest").modal("toggle"),
-                $('#ModalLeaveRequest').modal('hide'),
-                $('#history').DataTable().ajax.reload();
+            
+            $.ajax({
+                url: "/Employees/ManagerEmail/" + obj.EmployeeId,
+                success: function (data1) {
+                    console.log(data1.email);
+                    $.ajax({
+                        url: "/Employees/SendEmailToManager/",
+                        type: "POST",
+                        'data': { email: data1.email},
+                        'dataType': 'json',
+                        success: function (data) {
+                            console.log("email sent !");
+                        }
+                    })
+                }
+            })
+
+            $("#ModalLeaveRequest").modal("toggle"),
+            $('#ModalLeaveRequest').modal('hide'),
+            $('#history').DataTable().ajax.reload();
+
         }
         if (result == 404) {
             Swal.fire({

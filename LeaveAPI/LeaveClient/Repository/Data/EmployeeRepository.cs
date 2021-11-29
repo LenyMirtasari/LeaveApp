@@ -40,6 +40,30 @@ namespace LeaveClient.Repository.Data
             return entity;
         }
 
+        public async Task<EmailVM> ManagerEmail(int id)
+        {
+            EmailVM entity = null;
+
+            using (var response = await httpClient.GetAsync(request + "ManagerEmail/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entity = JsonConvert.DeserializeObject<EmailVM>(apiResponse);
+            }
+            return entity;
+        }
+
+        public async Task<EmailVM> EmployeeEmail(int id)
+        {
+            EmailVM entity = null;
+
+            using (var response = await httpClient.GetAsync(request + "EmployeeEmail/" + id))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entity = JsonConvert.DeserializeObject<EmailVM>(apiResponse);
+            }
+            return entity;
+        }
+
         public async Task<List<RequesterManagerVM>> RequesterManager(int id)
         {
             List<RequesterManagerVM> entities = new List<RequesterManagerVM>();

@@ -195,5 +195,19 @@ namespace LeaveAPI.Repository.Data
             var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();         
             return id;
         }
+
+        public Object ManagerEmail(int key)
+        {
+            var managerId = (from emp in myContext.Employees where emp.EmployeeId == key select emp.ManagerId).FirstOrDefault();
+            var email = (from emp in myContext.Employees where emp.EmployeeId == managerId select new EmailVM() { Email= emp.Email }).FirstOrDefault();
+            return email;
+        }
+    
+        public Object EmployeeEmail(int key)
+        {
+            var employeeId = (from ld in myContext.LeaveDetails where ld.LeaveDetailId == key select ld.EmployeeId).FirstOrDefault();
+            var email = (from emp in myContext.Employees where emp.EmployeeId == employeeId select new EmailVM() { Email = emp.Email }).FirstOrDefault();
+            return email;
+        }
     }
 }
