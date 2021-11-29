@@ -11,7 +11,7 @@
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-           
+
             {
                 "data": "employeeId"
             },
@@ -20,12 +20,6 @@
             },
             {
                 "data": "jobTittle"
-            },
-            {
-                "data": "email"
-            },
-            {
-                "data": "phoneNumber"
             },
             {
                 "data": "submitDate",
@@ -49,26 +43,46 @@
 });
 
 function ModalLeave(id) {
-    /*console.log(nik);*/
-
+    leaves = "";
     $.ajax({
-        url: "/LeaveDetails/GetLeaveDetail/" + id,
+        url: "https://localhost:44312/API/LeaveDetails/GetLeaveDetail/" + id,
         success: function (result) {
             console.log(result);
             $("#ModalLeave").modal("show");
             $("#leaveDetailId1").val(result.leaveDetailId);
-            //$("#leaveDetailId1").val(result.leaveDetailId);
-            $("#employeeId1").val(result.employeeId);
-            $("#fullName1").val(result.fullName);
             d = result.startDate.split('T')[0];
-            $("#startDate1").val(d);
             f = result.endDate.split('T')[0];
-            $("#endDate1").val(f);
-            $("#leaveType1").val(result.leaveType);
-            $("#note1").val(result.note);
-          
-            console.log(d);
-          
+            leaves += `
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Leave Request ID</strong></label>
+                            <span class="col-md-7">: ${result.leaveDetailId}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Employee ID</strong></label>
+                            <span class="col-md-7">: ${result.employeeId}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Full Name</strong></label>
+                            <span class="col-md-7">: ${result.fullName}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Start Date</strong></label>
+                            <span class="col-md-7">: ${d}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>End Date</strong></label>
+                            <span class="col-md-7">: ${f}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Leave Type</strong></label>
+                            <span class="col-md-7">: ${result.leaveType}</span>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>Note</strong></label>
+                            <span class="col-md-7">: ${result.note}</span>
+                        </div>
+                     `
+            $('#leaveModal1').html(leaves);
         }
     })
 }
@@ -124,12 +138,12 @@ function Disapprove(id) {
             console.log(result)
             Swal.fire(
                 'Good job!',
-                'Leave Request Disapproved !',
+                'Leave Request Rejected !',
                 'success'
             )
 
             $.ajax({
-                url: "/Employees/EmployeeEmail/" + id,
+                url: "https://localhost:44312/API/Employees/EmployeeEmail/" + id,
                 success: function (data1) {
                     console.log(data1);
                     $.ajax({
@@ -152,8 +166,3 @@ function Disapprove(id) {
     })
 }
 
-function WithoutTime(dateTime) {
-    var date = new Date(dateTime.getTime());
-    date.setHours(0, 0, 0, 0);
-    return date;
-}

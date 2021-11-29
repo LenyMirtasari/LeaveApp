@@ -9,20 +9,18 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Leave Requester Data</h3>
-             
+
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="leaveManager"  class="table-bordered table-striped" style="width:100%">
+                <table id="leaveManager" class="table-bordered table-striped" style="width:100%">
                     <thead>
                         <tr>
                             <th>No</th>
-                           
+
                             <th>Employee ID </th>
                             <th>Full Name</th>
                             <th>Job Tittle</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
                             <th>Submit Date</th>
                             <th>Action</th>
                         </tr>
@@ -36,6 +34,7 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="ModalLeave" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -46,83 +45,49 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="needs-validation" id="LeaveManagerForm">
-                    <div class="row form-group">
-                        <div class="col">
-                            @* <label id="leaveDetailId1"></label>*@
-                       @*     <p><span id='leaveDetailId1'></span></p>*@
-                             <label for="leaveDetailId" >Leave Request ID</label>
-                            <input type="text" class="form-control" name="leaveDetailId" id="leaveDetailId1" aria-describedby="emailHelp" placeholder="" disabled>
-                            <small id="coba" class="form-text text-muted"> </small>
-                        </div>
-                        <div class="col">
-                            <label for="employeeId">Employee ID</label>
-                            <input type="text" id="employeeId1" name="employeeId" class="form-control" placeholder="" disabled>
-                        </div>
-                        <div class="col">
-                            <label for="fullName">Name</label>
-                            <input type="text" id="fullName1" name="fullName" class="form-control" placeholder="" disabled>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="m-b-20">
+                                <div id="leaveModal1">
+                                </div>
+                                <div class="col">
+                                    <input type="hidden" class="form-control" name="leaveDetailId" id="leaveDetailId1" placeholder="" disabled>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
-                    <div class="row form-group">
-
-
-                        <div class="col">
-                            <label for="startDate">Start Date</label>
-                            <input type="text" name="startDate" id="startDate1" class="form-control" placeholder="" disabled>
-                        </div>
-                        <div class="col">
-                            <label for="endDate">End Date</label>
-                            <input type="text" name="endDate" id="endDate1" class="form-control" placeholder="" disabled>
-                        </div>
-                        <div class="col">
-                            <label for="leaveType">Leave Type</label>
-                            <input type="text" id="leaveType1" name="leaveType" class="form-control" placeholder="" disabled>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col">
-                            <label for="note">Note</label>
-                            <input type="text" id="note1" name="note" class="form-control" placeholder="" disabled>
-                        </div>
-
-                    </div>
-
-
-                </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary" onclick="Update(document.getElementById('Nik1').value)">Save changes</button>*@
-                <button type="button" class="btn btn-danger" onclick="Disapprove(document.getElementById('leaveDetailId1').value)">Disapprove</button>
+                <button type="button" class="btn btn-danger" onclick="Disapprove(document.getElementById('leaveDetailId1').value)">Reject</button>
                 <button type="button" class="btn btn-success" onclick="Approve(document.getElementById('leaveDetailId1').value)">Approve</button>
             </div>
         </div>
     </div>
 </div>
-    @section scripts{
-        <script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="~/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-        <script src="~/assets/js/demo/datatables-demo.js"></script>
+@section scripts{
+    <script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/js/demo/datatables-demo.js"></script>
 
 
-       @* <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>*@
-        <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
-        @*buat pie*@
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <script>
+    @* <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>*@
+    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    @*buat pie*@
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
 
-        </script>
+    </script>
 
 
-        @*    <script src="~/js/site.js" asp-append-version="true"></script>*@
-        <script src="~/js/LeaveManager.js"></script>
+    @*    <script src="~/js/site.js" asp-append-version="true"></script>*@
+    <script src="~/js/LeaveManager.js"></script>
 
-    }
+}

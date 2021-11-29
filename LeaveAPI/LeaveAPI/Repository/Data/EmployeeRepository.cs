@@ -196,6 +196,12 @@ namespace LeaveAPI.Repository.Data
             return id;
         }
 
+        public string GetEmployeeName(LoginVM loginVM)
+        {
+            string name = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.FirstName+" "+emp.LastName).FirstOrDefault();
+            return name;
+        }
+
         public Object ManagerEmail(int key)
         {
             var managerId = (from emp in myContext.Employees where emp.EmployeeId == key select emp.ManagerId).FirstOrDefault();

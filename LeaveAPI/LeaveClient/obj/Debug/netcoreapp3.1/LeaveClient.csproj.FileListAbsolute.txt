@@ -95,3 +95,4 @@ D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.csproj.
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.dll
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.pdb
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.genruntimeconfig.cache
+D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LeaveLayoutManager.cshtml.g.cs

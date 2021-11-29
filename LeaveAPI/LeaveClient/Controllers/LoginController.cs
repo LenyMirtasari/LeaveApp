@@ -29,14 +29,16 @@ namespace LeaveClient.Controllers
             var token = jwtToken.Token;
             var roleName = jwtToken.RoleName;
             var employeeId = jwtToken.EmployeeId;
+            string fullName = jwtToken.FullName;
           
            // int aa = roleName.Count();
             if (token == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
 
             HttpContext.Session.SetString("JWToken", token);
+            HttpContext.Session.SetString("FullName", fullName);
             HttpContext.Session.SetInt32("SessionId", employeeId);
 
             if (roleName.Count()==2)

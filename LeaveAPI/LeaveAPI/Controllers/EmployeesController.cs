@@ -162,7 +162,8 @@ namespace LeaveAPI.Controllers
                     Messages = "Login Berhasil",
                     Token = idtoken,
                     RoleName = repository.GetUserRole(loginVM),
-                    EmployeeId = repository.GetEmployeeId(loginVM)
+                    EmployeeId = repository.GetEmployeeId(loginVM),
+                    FullName = repository.GetEmployeeName(loginVM)
                 });
             }
 

@@ -11,12 +11,12 @@
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
             },
-            {
+           /* {
                 "data": "leaveId"
             },
             {
                 "data": "fullName"
-            },
+            },*/
             {
                 "data": "startDate",
                 "render": function (date) {
@@ -39,13 +39,7 @@
                 "data": "note"
             },
             {
-                "data": "submitDate",
-                "render": function (date) {
-                    var date;
-                    date = date.toString();
-                    dateTime = date.substring(0, 10);
-                    return dateTime;
-                }
+                "data": "leaveTypeName"
             },
             {
                 "data": "",
@@ -58,10 +52,8 @@
                         return "Rejected";
                     }
                 }
-            },
-            {
-                "data": "leaveTypeName"
             }
+            
         ]
     });
     /*   table.ajax.reload(); */
@@ -87,7 +79,7 @@ function LeaveRequest() {
                         </div>
                         <div class="row form-group">
                             <label class="col-md-4" for="employeeId"><strong>Email</strong></label>
-                            <span class="col-md-7">: ${result.email}</span>
+                            <span   class="col-md-7">: ${result.email}</span>
                         </div>
                         <div class="row form-group">
                             <label class="col-md-4" for="employeeId"><strong>Phone Number</strong></label>
