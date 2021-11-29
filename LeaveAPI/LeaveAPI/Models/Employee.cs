@@ -41,6 +41,7 @@ namespace LeaveAPI.Models
         public virtual ICollection<TotalLeave> TotalLeave { get; set; }
 
         public Employee Manager { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Employee> Employees { get; set; }
 
     }

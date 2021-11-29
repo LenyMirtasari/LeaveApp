@@ -118,6 +118,102 @@ namespace LeaveAPI.Repository.Data
                 }
                 var totalLeaves = myContext.TotalLeaves.Where(a => a.EmployeeId == leaveRequestVM.EmployeeId).ToList();
                 var newList = totalLeaves.OrderByDescending(x => x.TotalLeaveId).First();
+                if (leaveRequestVM.LeaveTypeId == 1)
+                {
+                    if (totLeave > newList.EligibleLeave)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        LeaveDetail ld = new LeaveDetail();
+                        ld.StartDate = StartDate;
+                        ld.EndDate = EndDate;
+                        ld.Note = leaveRequestVM.Note;
+                        ld.SubmitDate = DateTime.Now;
+                        ld.ManagerId = leaveRequestVM.ManagerId;
+                        ld.LeaveTypeId = leaveRequestVM.LeaveTypeId;
+                        ld.EmployeeId = leaveRequestVM.EmployeeId;
+                        myContext.Add(ld);
+                        myContext.SaveChanges();
+                        TotalLeave tl = new TotalLeave();
+                        tl.EmployeeId = leaveRequestVM.EmployeeId;
+                        tl.EligibleLeave = newList.EligibleLeave - totLeave;
+                        tl.TotalLeaves = totLeave + newList.TotalLeaves;
+                        myContext.Add(tl);
+                        myContext.SaveChanges();
+                        return 0;
+                    }
+                }
+                else
+                {
+                    LeaveDetail ld = new LeaveDetail();
+                    ld.StartDate = StartDate;
+                    ld.EndDate = EndDate;
+                    ld.Note = leaveRequestVM.Note;
+                    ld.SubmitDate = DateTime.Now;
+                    ld.ManagerId = leaveRequestVM.ManagerId;
+                    ld.LeaveTypeId = leaveRequestVM.LeaveTypeId;
+                    ld.EmployeeId = leaveRequestVM.EmployeeId;
+                    myContext.Add(ld);
+                    myContext.SaveChanges();
+                    TotalLeave tl = new TotalLeave();
+                    tl.EmployeeId = leaveRequestVM.EmployeeId;
+                    tl.TotalLeaves = totLeave + newList.TotalLeaves;
+                    myContext.Add(tl);
+                    myContext.SaveChanges();
+                    return 0;
+
+                }
+            }
+        }
+
+        /*public int LeaveRequest(LeaveRequestVM leaveRequestVM)
+        {
+            DateTime StartDate = leaveRequestVM.StartDate;
+            DateTime EndDate = leaveRequestVM.EndDate;
+            var exp = HasExpired(StartDate);
+            if (exp == true)
+            {
+                return 1;
+            }
+            else
+            {
+
+                int DayInterval = 1;
+                int totLeave = 0;
+
+                while (StartDate <= EndDate)
+                {
+
+                    var result = GetHoliday(StartDate);
+
+                    if (result > 0)
+                    {
+                        StartDate = StartDate.AddDays(DayInterval);
+                        totLeave += 0;
+
+                    }
+
+                    else
+                    {
+                        var newDate = StartDate.ToString("dddd");
+                        if ((newDate == "Saturday") || (newDate == "Sunday"))
+                        {
+                            StartDate = StartDate.AddDays(DayInterval);
+                            totLeave += 0;
+                        }
+                        else
+                        {
+                            StartDate = StartDate.AddDays(DayInterval);
+                            totLeave++;
+
+                        }
+
+                    }
+                }
+                var totalLeaves = myContext.TotalLeaves.Where(a => a.EmployeeId == leaveRequestVM.EmployeeId).ToList();
+                var newList = totalLeaves.OrderByDescending(x => x.TotalLeaveId).First();
                 if (totLeave > newList.EligibleLeave)
                 {
                     return 2;
@@ -145,7 +241,7 @@ namespace LeaveAPI.Repository.Data
             }
 
 
-        }
+        }*/
 
         public int Approve(int key)
         {
@@ -176,6 +272,14 @@ namespace LeaveAPI.Repository.Data
                              LeaveTypeName = lt.LeaveTypeName
                          };
             return result;
+        }
+
+        public int GetRequestNumber()
+        {
+
+            LeaveDetail f = myContext.LeaveDetails.OrderByDescending(x => x.LeaveDetailId).First();
+            var number = f.LeaveDetailId + 1;
+            return number;
         }
     }
 }

@@ -15,6 +15,11 @@ namespace LeaveAPI.Repository.Data
             return BCrypt.Net.BCrypt.GenerateSalt(12);
         }
 
+        public static bool ValidatePassword(string password, string correctHash)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, correctHash);
+        }
+
         private readonly MyContext myContext;
         public EmployeeRepository(MyContext myContext) : base(myContext)
         {
@@ -116,7 +121,32 @@ namespace LeaveAPI.Repository.Data
             return 0;
         }
 
-        public Object GetProfile(int Key)
+        public Object GetRequester(int Key)
+        {
+            var result = from emp in myContext.Employees
+                         join job in myContext.Jobs on emp.JobId equals job.JobId
+                         join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
+                         where tl.EmployeeId == Key
+                         select new RequesterVM()
+                         {
+                             ID = Key,
+                             FullName = emp.FirstName + " " + emp.LastName,
+                             JobTittle = job.JobTitle,
+                             Email = emp.Email,
+                             PhoneNumber = emp.PhoneNumber,
+                             ManagerId = emp.ManagerId,
+
+                             TotalLeaveId = tl.TotalLeaveId,
+                             EligibleLeave = tl.EligibleLeave,
+                             LastYear = tl.LastYear,
+                             CurrentYear = tl.CurrentYear,
+                             TotalLeaves = tl.TotalLeaves
+                         };
+
+            return result.OrderByDescending(x => x.TotalLeaveId).First();
+        }
+
+        /*public Object GetProfile(int Key)
         {
             var result = from emp in myContext.Employees                      
                          join job in myContext.Jobs on emp.JobId equals job.JobId
@@ -137,14 +167,14 @@ namespace LeaveAPI.Repository.Data
                          };
 
             return result;
-        }
+        }*/
 
-        public int Login(LoginVM loginVM)
+        /*public int Login(LoginVM loginVM)
         {
             Employee employee = new Employee();
             Account account = new Account();
             var checkEmail = myContext.Employees.Where(employee => employee.Email == loginVM.Email).FirstOrDefault();
-            /*var checkEmail = myContext.Employees.Find(loginVM.Email);*/
+            *//*var checkEmail = myContext.Employees.Find(loginVM.Email);*//*
             if (checkEmail == null)
             {
                 return 2;
@@ -160,6 +190,55 @@ namespace LeaveAPI.Repository.Data
             {
                 return 4;
             }
+        }*/
+
+        public int GetLogin(string emailInput, string passwordInput)
+        {
+            try
+            {
+                var checkEmail = myContext.Employees.Where(p => p.Email == emailInput).FirstOrDefault();
+                var id = (from emp in myContext.Employees where emp.Email == emailInput select emp.EmployeeId).Single();
+                var password = (from emp in myContext.Employees
+                                join acc in myContext.Accounts on emp.EmployeeId equals acc.EmployeeId
+                                where emp.Email == emailInput
+                                select acc.Password).Single();
+                var validPw = ValidatePassword(passwordInput, password);
+                if (checkEmail != null)
+                {
+                    if (validPw == true)
+                    {
+                        return 0;
+
+                    }
+                    else if (validPw == false)
+                    {
+                        return 2;
+                    }
+
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                return 1;
+            }
+            return 3;
+        }
+
+        public string[] GetUserRole(LoginVM loginVM)
+        {
+            var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();
+            var roles = myContext.AccountRoles.Where(a => a.EmployeeId == id).ToList();
+            List<string> result = new List<string>();
+            foreach (var item in roles)
+            {
+                result.Add(myContext.Roles.Where(a => a.RoleId == item.RoleId).First().RoleName);
+            }
+            return result.ToArray();
+        }
+        public int GetEmployeeId(LoginVM loginVM)
+        {
+            var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();
+            return id;
         }
     }
 }

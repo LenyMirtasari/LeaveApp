@@ -13,6 +13,8 @@ namespace LeaveAPI.ViewModel
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int? ManagerId { get; set; }
+        public string ManagerName { get; set; }
+        public int TotalLeaveId { get; set; }
         public int EligibleLeave { get; set; }
         public int LastYear { get; set; }
         public int CurrentYear { get; set; }

@@ -4,7 +4,7 @@
             'url': "https://localhost:44307/api/employees",
             'dataSrc': 'result'
         },
-        /*buttons: [
+        buttons: [
             {
                 extend: 'copyHtml5',
                 name: 'copy',
@@ -57,7 +57,7 @@
                     columns: [1, 2, 3, 4, 5, 6, 7]
                 }
             }
-        ],*/
+        ],
         'columns': [
             {
                 "data": "employeeId"
@@ -100,15 +100,18 @@
                 }
             },
             {
+                "data": "jobId"
+            },
+            {
                 "data": "gender",
                 "render": function (data, type, row, meta) {
-                    if (row['gender'] == 0) {
+                    if ('Male') {
                         return 'Male'
-                    } else if (row['gender'] == 1) {
+                    } else if ('Female') {
                         return 'Female'
                     }
                 }
-            }/*,
+            },
             {
                 "data": "",
                 "render": function (data, type, row, meta) {
@@ -118,10 +121,60 @@
                         '</td > ';
                     return button;
                 }
-            }*/
+            }
         ]
     });
 });
+
+function ModalRegister(){
+
+}
+
+function InsertData() {
+    var obj = new Object();
+    obj.FirstName = $('#firstName').val();
+    obj.LastName = $('#lastName').val();
+    obj.PhoneNumber = $('#phoneNumber').val();
+    obj.Gender = $('#gender').val();
+    obj.hireDate = $('#hireDate').val();
+    obj.Email = $('#email').val();
+    obj.Password = $('#password').val();
+    obj.JobId = $('#jobId').val();
+    obj.RoleId = $('#roleId').val();
+    console.log(obj);
+    $.ajax({
+        url: "https://localhost:44307/api/employees/register",
+        'type': 'POST',
+        'data': { entity: obj }, //objek kalian
+        'dataType': 'json',
+    }).done((result) => {
+        if (result == 200) {
+            swal({
+                title: "Good job!",
+                text: "Data Berhasil Ditambahkan!!",
+                icon: "success",
+                button: "Okey!",
+            }).then(function () {
+                window.location = "https://localhost:44307/home/DataEmployee";
+            });
+        } else if (result == 400) {
+            swal({
+                title: "Failed!",
+                text: "Data Gagal Dimasukan, NIK,Phone,Email Sudah Terdaftar!!",
+                icon: "error",
+                button: "Close",
+            });
+        }
+    }).fail((error) => {
+
+        swal({
+            title: "Failed!",
+            text: "Data Gagal Dimasukan!!",
+            icon: "error",
+            button: "Close",
+        });
+    })
+}
 
 $(document).ready(function () {
     $("#formValidation").validate({
@@ -200,7 +253,7 @@ $(document).ready(function () {
 function getData(NIK) {
     /console.log(nik)/
     $.ajax({
-        url: "https://localhost:44307/api/employees/register/" + NIK,
+        url: "https://localhost:44307/api/employees/register/" + employeeId,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -222,7 +275,7 @@ function getData(NIK) {
                 $('#gender').val(1);
             };
             $('#password').val(result.password);
-            $('#modalEmployee').modal('show');
+            /*$('#modalEmployee').modal('show');*/
             $(window).on('load', function () {
                 $('#modalEmployee').modal('show');
             });
@@ -244,4 +297,87 @@ function getData(NIK) {
     }
     });
 return false
+};
+
+function updateData() {
+    var nik = $('#employeeId');
+    var obj = new Object();
+    obj.NIK = $("#nik").val();
+    obj.FirstName = $("#firstName").val();
+    obj.LastName = $("#lastName").val();
+    obj.Email = $("#email").val();
+    obj.PhoneNumber = $("#phoneNumber").val();
+    obj.HireDate = $("#hireDate").val();
+    obj.Gender = $("#gender").val();
+    obj.Password = $("#password").val();
+    obj.JobId = $("#jobId").val();
+    obj.ManagerId = $("#managerId").val();
+    $.ajax({
+        url: "https://localhost:44307/api/employees/" + employeeId,
+        type: "PUT",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            console.log(result.result);
+            var tanggal = result.result.hireDate.substring(0, 10);
+            $('#firstName').val(result.result.firstName);
+            $('#lastName').val(result.result.lastName);
+            $('#email').val(result.result.email);
+            $('#phoneNumber').val(result.result.phoneNumber);
+            $('#hireDate').val(result.result.hireDate);
+            if (result.result.gender === "Male") {
+                $('#gender').val("Male");
+            } else {
+                $('#gender').val("Female");
+            };
+            $('#jobId').val(result.result.jobId);
+            $('#managerId').val(result.result.managerId);
+            swal({
+                title: "Good job!",
+                text: "Data Berhasil Ditambahkan!!",
+                icon: "success",
+                button: "Okey!",
+            }).then(function () {
+                window.location.reload();
+            });
+            $('#modalPokemon').modal('hide');
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+};
+
+function deleteData(NIK) {
+    var del = confirm("Kamu Yakin Untuk Menghapus Data Ini?");
+    if (del) {
+        $.ajax({
+            url: "https://localhost:44307/api/employees/" + employeeId,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "DELETE",
+            dataType: "json",
+            data: { "": nik },
+            success: function (result) {
+                swal({
+                    title: "Good job!",
+                    text: "Data Berhasil Dihapus!!",
+                    icon: "success",
+                    button: "Okey!",
+                }).then(function () {
+                    window.location.reload();
+                });
+            },
+            error: function (errormessage) {
+                swal({
+                    title: "Failed!",
+                    text: "Data Gagal Dihapus!!",
+                    icon: "error",
+                    button: "Close",
+                });
+            }
+        });
+    }
 };

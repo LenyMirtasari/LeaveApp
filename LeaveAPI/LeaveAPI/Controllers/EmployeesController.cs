@@ -3,6 +3,7 @@ using LeaveAPI.Context;
 using LeaveAPI.Models;
 using LeaveAPI.Repository.Data;
 using LeaveAPI.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -84,18 +85,34 @@ namespace LeaveAPI.Controllers
             }
         }
 
-        [Route("Login")]
+        [Route("Requester/{Key}")]
+        [HttpGet]
+        public ActionResult Requester(int Key)
+        {
+            var check = repository.GetEmployeeCheck(Key);
+            if (check == 0)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Data Not Found " });
+            }
+            else
+            {
+                var result = repository.GetRequester(Key);
+                return Ok(result);
+            }
+        }
+
+        /*[Route("Login")]
         [HttpPost]
         public ActionResult Login(LoginVM loginVM)
         {
-            var result = repository.Login(loginVM);
+            var result = repository.GetLogin(loginVM);
             if (result == 2)
             {
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data gagal dimasukkan : EMAIL yang Anda masukkan TIDAK TERDAFTAR!!!" });
             }
             else if (result == 3)
             {
-                /*var getRoles = repository.GetRole(loginVM.Email);*/
+                *//*var getRoles = repository.GetRole(loginVM.Email);*//*
 
                 var data = new LoginVM()
                 {
@@ -107,10 +124,10 @@ namespace LeaveAPI.Controllers
                     new Claim("Email", data.Email),
                 };
 
-                /*foreach (var item in getRoles)
+                *//*foreach (var item in getRoles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, item.ToString()));
-                }*/
+                }*//*
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var sigIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -128,7 +145,7 @@ namespace LeaveAPI.Controllers
                 return Ok(new { status = HttpStatusCode.OK, idtoken, message = "Login Berhasil" });
                 return Ok(new JWTokenVM
                 {
-                    /*status = HttpStatusCode.OK,*/
+                    *//*status = HttpStatusCode.OK,*//*
                     Token = idtoken,
                     Messages = "Login Berhasil!!"
                 });
@@ -137,8 +154,67 @@ namespace LeaveAPI.Controllers
             {
                 return Ok(new { status = HttpStatusCode.BadRequest, message = "Login Gagal" });
             }
+        }*/
+
+        [Route("Login")]
+        [HttpPost]
+        public ActionResult Login(LoginVM loginVM)
+        {
+            var check = repository.GetLogin(loginVM.Email, loginVM.Password);
+
+            if (check == 1)
+            {
+                return BadRequest(new JWTokenVM { Messages = "Email/Password Salah", Token = null });
+
+            }
+            else if (check == 2)
+            {
+                return BadRequest(new JWTokenVM { Messages = "Email/Password Salah", Token = null });
+            }
+            else
+            {
+                var getUserRoles = repository.GetUserRole(loginVM);
+
+                var data = new LoginDataVM()
+                {
+                    Email = loginVM.Email,
+                };
+                var claims = new List<Claim>
+                {
+                    new Claim("email", data.Email),
+                };
+                foreach (var a in getUserRoles)
+                {
+                    claims.Add(new Claim("roles", a.ToString()));
+                }
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                            _configuration["Jwt:Issuer"],
+                            _configuration["Jwt:Audience"],
+                            claims,
+                            expires: DateTime.UtcNow.AddMinutes(10),
+                            signingCredentials: signIn
+                            );
+                var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
+                claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
+                return Ok(new JWTokenVM
+                {
+                    Messages = "Login Berhasil",
+                    Token = idtoken,
+                    RoleName = repository.GetUserRole(loginVM),
+                    EmployeeId = repository.GetEmployeeId(loginVM)
+                });
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet("TestJWT")]
+        public ActionResult TestJWT()
+        {
+            return Ok("Test JWT berhasil");
         }
 
     }
-
 }

@@ -7,7 +7,10 @@
 <h1>Data Employee</h1>
 
 <p></p>
-<button class="btn btn-primary fa fa-save" data-toggle="modal" data-target="#modalEmployee"> Masukkan Data </button>
+@*<button class="btn btn-primary fa fa-save" data-toggle="modal" data-target="#modalEmployee" onclick="ModalRegister();"> Masukkan Data </button>*@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Masukkan Data
+</button>
 <p></p>
 
 <button class="btn btn-secondary far fa-copy" aria-hidden="true" onclick="ExportToCopy();"> Copy </button>
@@ -19,17 +22,41 @@
 <table id="tabelEmployee" class="table table-primary">
     <thead>
         <tr>
+            <th>Employee Id</th>
             <th>Full Name</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Hire Date</th>
             <th>Job Id</th>
+            <th>Gender</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody id="tablePoke">
     </tbody>
 </table>
+
+
+@*<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalEmployee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -44,6 +71,10 @@
             <div class="modal-body">
                 <form id="formValidation">
                     <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label>Employee Id</label>
+                            <input type="text" class="form-control" id="employeeId" name="employeeId" placeholder="EmployeeId" required>
+                        </div>
                         <div class="col-md-4 mb-3">
                             <label>First Name</label>
                             <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>

@@ -8,12 +8,11 @@ namespace LeaveAPI.ViewModel
 {
     public class LoginVM
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your email")]
+        [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
-
-        public string[] Role { get; set; }
     }
 }

@@ -18,7 +18,17 @@ namespace Client.Controllers
             _logger = logger;
         }
 
+        public IActionResult DataEmployee()
+        {
+            return View();
+        }
+
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Modal()
         {
             return View();
         }

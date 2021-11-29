@@ -76,5 +76,14 @@ namespace LeaveAPI.Controllers
             var data = repository.GetHistory(key);
             return Ok(data);
         }
+
+        [Route("GetRequestNumber")]
+        [HttpGet]
+        public ActionResult GetRequestNumber()
+        {
+            var data = repository.GetRequestNumber();
+            return Ok(data);
+        }
+
     }
 }

@@ -1,3 +1,4 @@
+using LeaveClient.Repository.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAPI.Base.Urls;
+using WebAPI.Repositories.Data;
 
 namespace Client
 {
@@ -29,8 +32,9 @@ namespace Client
             services.AddControllersWithViews();
             services.AddSession();
             services.AddHttpContextAccessor();
-            /*services.AddScoped<EmployeeRepository>();
-            services.AddScoped<Address>();*/
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<LeaveDetailRepository>();
+            services.AddScoped<Address>();
 
             services.AddAuthentication(auth =>
             {
