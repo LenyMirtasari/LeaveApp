@@ -104,13 +104,16 @@ function Approve(id) {
                 'success'
             )
             $.ajax({
-                url: "/Employees/EmployeeEmail/" + id,
+                url: "https://localhost:44312/API/LeaveDetails/GetLeaveDetail/" + id,
                 success: function (data1) {
                     console.log(data1);
+                    let st = "diterima";
+                    console.log(data1.email);
+                    console.log(st);
                     $.ajax({
                         url: "/Employees/SendEmailToEmployee/",
                         type: "POST",
-                        'data': { email: data1.email },
+                        'data': { email: data1.email, nm: data1.fullName, status: st, sd: data1.startDate, ed: data1.endDate, lt: data1.leaveType },
                         'dataType': 'json',
                         success: function (data) {
                             console.log("email sent !");
@@ -143,13 +146,14 @@ function Disapprove(id) {
             )
 
             $.ajax({
-                url: "https://localhost:44312/API/Employees/EmployeeEmail/" + id,
+                url: "https://localhost:44312/API/LeaveDetails/GetLeaveDetail/" + id,
                 success: function (data1) {
+                    let st = "ditolak";
                     console.log(data1);
                     $.ajax({
                         url: "/Employees/SendEmailToEmployee/",
                         type: "POST",
-                        'data': { email: data1.email },
+                        'data': { email: data1.email, nm: data1.fullName, status: st, sd: data1.startDate, ed: data1.endDate, lt: data1.leaveType },
                         'dataType': 'json',
                         success: function (data) {
                             console.log("email sent !");

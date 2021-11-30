@@ -68,6 +68,7 @@ function LeaveRequest() {
             $("#ModalLeaveRequest").modal("show");
             $("#managerId2").val(result.managerId);
             $("#employeeId2").val(result.id);
+            $("#managerName2").val(result.managerName);
             listSW += `                                                         
 	                    <div class="row form-group">                       
                             <label class="col-md-4" for="employeeId"><strong>Employee ID</strong></label>
@@ -150,7 +151,24 @@ function Insert() {
     obj.EndDate = $("#endDate2").val();
     obj.ManagerId = $("#managerId2").val();
     obj.LeaveTypeId = $("#LeaveType2").val();
+    leave1 = $("#LeaveType2").val();
     obj.Note = $("#notes2").val();
+    manager = $("#managerName2").val()
+    leaveType1 = "";
+    if (leave1 == 1) {
+        leaveType1 = "Cuti Tahunan";
+    } else if (leave1 ==2) {
+        leaveType1 = "Pekerja menikah";
+    } else if (leave1 == 3) {
+        leaveType = "Mengkhitankan anaknya";
+    } else if (leave1 == 4) {
+        leaveType1 = "Membaptiskan anaknya";
+    } else if (leave1 == 5) {
+        leaveType1 = "Anggota keluarga dalam satu rumah meninggal dunia";
+    }
+    console.log(leave1)
+    console.log(leaveType1)
+    console.log(manager)
 
     console.log(obj);
     $.ajax({
@@ -168,13 +186,13 @@ function Insert() {
             )
             
             $.ajax({
-                url: "/Employees/ManagerEmail/" + obj.EmployeeId,
+                url: "/Employees/ManagerEmail" ,
                 success: function (data1) {
                     console.log(data1.email);
                     $.ajax({
                         url: "/Employees/SendEmailToManager/",
                         type: "POST",
-                        'data': { email: data1.email},
+                        'data': { email: data1.email, sd: obj.StartDate, ed: obj.EndDate, note: obj.Note, lt: leaveType1, mng: manager },
                         'dataType': 'json',
                         success: function (data) {
                             console.log("email sent !");

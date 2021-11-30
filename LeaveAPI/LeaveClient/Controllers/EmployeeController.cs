@@ -29,8 +29,9 @@ namespace LeaveClient.Controllers
             return Json(result);
         }
 
-        public async Task<JsonResult> ManagerEmail(int id)
+        public async Task<JsonResult> ManagerEmail()
         {
+            int id = (int)HttpContext.Session.GetInt32("SessionId");
             var result = await repository.ManagerEmail(id);
             return Json(result);
         }
@@ -66,14 +67,28 @@ namespace LeaveClient.Controllers
             return View();
         }
       
-        public void SendEmailToManager(string email)
+        public void SendEmailToManager(string email, string sd, string ed, string note, string lt, string mng)
         {
+            string name = HttpContext.Session.GetString("FullName");
+            string date=  DateTime.Now.ToString("MMddyyyy");
+            DateTime myDate = DateTime.Parse(sd);
+            string sd1 = myDate.ToString("dd MMMM yyyy");
+            DateTime myDate1 = DateTime.Parse(ed);
+            string ed1 = myDate1.ToString("dd MMMM yyyy");
+            Random rnd = new Random();
+            int card = rnd.Next(52);
+            int card1 = rnd.Next(52);
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress("leaverequest12@gmail.com");
                 mail.To.Add(email);
-                mail.Subject = "Test";
-                mail.Body = "<h1>Coba lagi</h1>";
+                mail.Subject = "[Request] Leave "+name+" "+ date+card+card1;
+                mail.Body = " <p>Kepada, <span><b>"+mng+ "</b></span></p> <p>Dengan ini karyawan atas nama <span>"+name+
+                    "</span> ingin melakukan cuti pada:</p> <p>&emsp;&emsp;&emsp;Tanggal  : <span><b>"+sd1+" - "+ed1+
+                    "</b></span></p> <p>&emsp;&emsp;&emsp;Kategori : <span><b>"+lt+ 
+                    "</b></span></p> <p>&emsp;&emsp;&emsp;Alasan   : <span><b>"+note+ "</b></span></p> <p>Terima kasih,</p> <p>Leave Request Application</p>";
+
+
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
@@ -86,14 +101,27 @@ namespace LeaveClient.Controllers
 
         }
 
-        public void SendEmailToEmployee(string email)
+        public void SendEmailToEmployee(string email, string nm, string status, string sd, string ed, string lt)
         {
+            string name = HttpContext.Session.GetString("FullName");
+            string date = DateTime.Now.ToString("MMddyyyy");
+            DateTime myDate = DateTime.Parse(sd);
+            string sd1 = myDate.ToString("dd MMMM yyyy");
+            DateTime myDate1 = DateTime.Parse(ed);
+            string ed1 = myDate1.ToString("dd MMMM yyyy");
+            Random rnd = new Random();
+            int card = rnd.Next(52);
+            int card1 = rnd.Next(52);
+
             using (MailMessage mail = new MailMessage())
-            {
+            {   
                 mail.From = new MailAddress("leaverequest12@gmail.com");
                 mail.To.Add(email);
-                mail.Subject = "Test";
-                mail.Body = "<h4>https://localhost:44317/Login</h4>";
+                mail.Subject = "[Request] Leave " + name + " " + date + card + card1;
+                mail.Body = "<p>Kepada, <span><b>"+nm+ "</b></span></p> <p>Dengan ini permintaan cuti karyawan atas nama <span><b>"+nm+
+                    "</b></span> pada :</p> <p>&emsp;&emsp;&emsp;Tanggal : <span><b>"+sd1+" - "+ed1+
+                    "</b></span></p> <p>&emsp;&emsp;&emsp;Kategori : <span><b>"+lt+
+                    "</b></span></p>  <p>telah <b>"+status+ "</b> sesuai dengan peraturan perusahaan yang berlaku.</p><p>Terima kasih,</p><p>Leave Request Application</p>";
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
