@@ -3,122 +3,163 @@
 *@
 @{
     Layout = "_LeaveLayout";
+
 }
-<div class="mb-3" id="tabel2">
-    <button type="submit" id="submit" class="btn btn-primary" onclick="LeaveRequest()"><small>+ Leave Request</small></button>
-</div>
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Leave Request History</h3>
-            </div>
-            <!-- /.card-header -->
+
+<div class="row justify-content-center">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
-                <table id="history" class="table table-bordered table-striped" style="width:100%">
-                    <thead>
-                        <tr>
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Eligible Leave
+                        </div>
+                        <div id="eligiblee"></div>
+                        
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            <th>No</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Note</th>
-                            <th>Leave Type</th>
-                            <th>Status</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="tablePoke">
-                    </tbody>
-                </table>
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total leave
+                        </div>
+                        <div id="totalle"></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+    <div class="mb-3" id="tabel2">
+        <button type="submit" id="submit" class="btn btn-primary" onclick="LeaveRequest()"><small>+ Leave Request</small></button>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Leave Request History</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="history" class="table table-bordered table-striped" style="width:100%">
+                        <thead>
+                            <tr>
 
-<div class="modal fade" id="ModalLeaveRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Leave Request Detail</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                                <th>No</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Note</th>
+                                <th>Leave Type</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tablePoke">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="modal-body" id="">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="m-b-20">
-                                <div id="modal1">
-                                </div>
-                                <div id="modal2">
-                                </div>
-                                <div id="modal3">
-                                    <form class="needs-validation" id="formRequestLeave2">
-                                        <div class="row form-group">
-                                            <input id="employeeId2" type="hidden" name="name" class="form-control" value="" disabled />
-                                            <input id="managerId2" type="hidden" name="name" class="form-control" value="" disabled />
-                                            <input id="managerName2" type="hidden" name="name" class="form-control" value="" disabled />
+        </div>
+    </div>
 
-                                        </div>
-                                        <div class="row form-group">
-                                            <label class="col-md-4" for="leaveType"><strong>Leave Type</strong></label>
-                                            <select class="col-md-7 form-control" id="LeaveType2" name="LeaveType">
-                                                <option selected>Choose...</option>
-                                                <option>...</option>
-                                            </select>
-                                        </div>
-                                      
-                                        <div class="row form-group">
-                                            <label class="col-md-4" for="startDate"><strong>Start Date </strong></label>
-                                            <input id="startDate2" type="date" class="col-md-7 form-control" name="startDate" placeholder="Start Date" />
-                                         </div>
-                                        <div class="row form-group">
-                                            <label class="col-md-4" for="endDate"><strong>End Date</strong></label>
-                                            <input id="endDate2" type="date" class="col-md-7 form-control" name="endDate" placeholder="End Date" />
+    <div class="modal fade" id="ModalLeaveRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Leave Request Detail</h5>
 
-                                        </div>
-                                        <div class="row form-group">
-                                            <label class="col-md-4" for="notes"><strong>Notes </strong></label>
-                                            <textarea id="notes2" name="notes" class="col-md-7 form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars."></textarea>
-                                        </div>
-                                    </form>
+                </div>
+                <div class="modal-body" id="">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="m-b-20">
+                                    <div id="modal1">
+                                    </div>
+                                    <div id="modal2">
+                                    </div>
+                                    <div id="modal3">
+                                        <form class="needs-validation" id="formRequestLeave2">
+                                            <div class="row form-group">
+                                                <input id="employeeId2" type="hidden" name="name" class="form-control" value="" disabled />
+                                                <input id="managerId2" type="hidden" name="name" class="form-control" value="" disabled />
+                                                <input id="managerName2" type="hidden" name="name" class="form-control" value="" disabled />
+
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-md-4" for="leaveType"><strong>Leave Type</strong></label>
+                                                <select class="col-md-7 form-control" id="LeaveType2" name="LeaveType">
+                                                    <option selected>Choose...</option>
+                                                    <option>...</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <label class="col-md-4" for="startDate"><strong>Start Date </strong></label>
+                                                <input id="startDate2" type="date" class="col-md-7 form-control" name="startDate" placeholder="Start Date" />
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-md-4" for="endDate"><strong>End Date</strong></label>
+                                                <input id="endDate2" type="date" class="col-md-7 form-control" name="endDate" placeholder="End Date" />
+
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-md-4" for="notes"><strong>Notes </strong></label>
+                                                <textarea id="notes2" name="notes" class="col-md-7 form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars."></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                              
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" id="submit" class="btn btn-primary" onclick="Validation()">Save</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="submit" class="btn btn-primary" onclick="Validation()">Save</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-                @section scripts{
-                    <script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
-                    <script src="~/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-                    <script src="~/assets/js/demo/datatables-demo.js"></script>
+    @section scripts{
+        <script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="~/assets/js/demo/datatables-demo.js"></script>
 
 
-                    @*<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>*@
-                    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-                    <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-                    <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-                    <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-                    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-                    <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
-                    @*buat pie*@
-                    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-                    <script>
+        @*<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>*@
+        <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+        @*buat pie*@
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script>
 
-                    </script>
+        </script>
 
 
-                    @*    <script src="~/js/site.js" asp-append-version="true"></script>*@
-                    <script src="~/js/LeaveHistory.js"></script>
+        @*    <script src="~/js/site.js" asp-append-version="true"></script>*@
+        <script src="~/js/LeaveHistory.js"></script>
 
-                }
+    }

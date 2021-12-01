@@ -32,6 +32,7 @@
                     var date;
                     date = date.toString();
                     dateTime = date.substring(0, 10);
+                  
                     return dateTime;
                 }
             },
@@ -45,11 +46,11 @@
                 "data": "",
                 "render": function (data, type, row, meta) {
                     if (row['approval'] == '0') {
-                        return "Waiting";
+                        return `<h5><span class="badge badge-warning">Waiting</span></h5>`;
                     } else if (row['approval'] == '1') {
-                        return "Approve";
+                        return `<h5><span class="badge badge-success">Approve</span></h5>`;
                     } else {
-                        return "Rejected";
+                        return `<h5><span class="badge badge-danger">Rejected</span></h5>`;
                     }
                 }
             }
@@ -58,6 +59,8 @@
     });
     /*   table.ajax.reload(); */
 });
+
+
 
 function LeaveRequest() {
     listSW = "";
@@ -139,6 +142,20 @@ $(document).ready(function () {
             })
 
             $('#LeaveType2').html(leaveType);
+        }
+
+    })
+});
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/Employees/Requester/",
+        success: function (result) {
+            console.log(result)
+            var eligible = `<div class="h5 mb-0 font-weight-bold text-gray-800">${result.eligibleLeave}</div>`;
+            var total = `<div class="h5 mb-0 font-weight-bold text-gray-800">${result.totalLeaves}</div>`;
+            $('#eligiblee').html(eligible);
+            $('#totalle').html(total);
         }
 
     })
@@ -240,7 +257,8 @@ $("#formRequestLeave2").validate({
             required: true
         },
         endDate: {
-            required: true
+            required: true,
+            greaterThan: "#startDate2"
         },
         notes: {
             /*   minlength: 50,*/
@@ -274,3 +292,15 @@ function Validation() {
         })
     }
 }
+
+$.validator.addMethod("greaterThan",
+    function (value, element, params) {
+
+        if (!/Invalid|NaN/.test(new Date(value))) {
+            return new Date(value) > new Date($(params).val());
+        }
+
+        return isNaN(value) && isNaN($(params).val())
+            || (Number(value) > Number($(params).val()));
+    }, 'Must be greater than start date');
+

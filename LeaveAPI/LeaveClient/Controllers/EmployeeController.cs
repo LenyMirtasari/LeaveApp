@@ -117,7 +117,7 @@ namespace LeaveClient.Controllers
             {   
                 mail.From = new MailAddress("leaverequest12@gmail.com");
                 mail.To.Add(email);
-                mail.Subject = "[Request] Leave " + name + " " + date + card + card1;
+                mail.Subject = "[Notification] Leave " + name + " " + date + card + card1;
                 mail.Body = "<p>Kepada, <span><b>"+nm+ "</b></span></p> <p>Dengan ini permintaan cuti karyawan atas nama <span><b>"+nm+
                     "</b></span> pada :</p> <p>&emsp;&emsp;&emsp;Tanggal : <span><b>"+sd1+" - "+ed1+
                     "</b></span></p> <p>&emsp;&emsp;&emsp;Kategori : <span><b>"+lt+
