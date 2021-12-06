@@ -96,7 +96,7 @@
                                     <div id="modal2">
                                     </div>
                                     <div id="modal3">
-                                        <form class="needs-validation" id="formRequestLeave2">
+                                        <form enctype="multipart/form-data" class="needs-validation" id="formRequestLeave2">
                                             <div class="row form-group">
                                                 <input id="employeeId2" type="hidden" name="name" class="form-control" value="" disabled />
                                                 <input id="managerId2" type="hidden" name="name" class="form-control" value="" disabled />
@@ -123,6 +123,14 @@
                                             <div class="row form-group">
                                                 <label class="col-md-4" for="notes"><strong>Notes </strong></label>
                                                 <textarea id="notes2" name="notes" class="col-md-7 form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars."></textarea>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <label class="col-md-4" for="File"><strong>Upload File</strong></label>
+                                                <div class="col-md-7 form-control">
+                                                    <input class="form-control custom-file-input" id="fileUpload" name="File" type="file" required>
+                                                    <label class="custom-file-label">Choose File...</label>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -156,6 +164,12 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script>
 
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName)
+                })
+            });
         </script>
 
 

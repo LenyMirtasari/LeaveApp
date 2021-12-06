@@ -190,6 +190,7 @@ namespace LeaveAPI.Repository.Data
                     ld.ManagerId = leaveRequestVM.ManagerId;
                     ld.LeaveTypeId = leaveRequestVM.LeaveTypeId;
                     ld.EmployeeId = leaveRequestVM.EmployeeId;
+                    ld.File = leaveRequestVM.uniqueFileName;
                     myContext.Add(ld);
                     myContext.SaveChanges();
                     TotalLeave tl = new TotalLeave();

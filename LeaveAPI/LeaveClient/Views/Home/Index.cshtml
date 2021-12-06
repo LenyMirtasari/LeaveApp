@@ -1,26 +1,33 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿
+@Model UploadVM
 
-@inject IHttpContextAccessor HttpContextAccessor
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html >
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
 </head>
 <body>
-    UserName: @HttpContextAccessor.HttpContext.Session.GetInt32("SessionId")
+    <h2>UploadFile</h2>
+    <form enctype="multipart/form-data" asp-controller="Home" asp-action="Create" method="post">
+        <div class="col-sm-10">
+         
+            <div class="custom-file">
+                <input  class="form-control custom-file-input" name="File" type="file">
+                <label class="custom-file-label">Choose File...</label>
+            </div> 
+        </div>
 
-
+        <div class="form-group row"><div class="col-sm-10"><button type="submit" class="btn btn-primary">Create</button></div></div>
+    </form>
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 
-    @*  $.ajax({
-        url: "https://localhost:44312/API/LeaveDetails/GetHistory/6",
-        success: function (result) {
-            console.log(result);
-        }
-    });*@
-   @* var employeeid = HttpContext.Session.GetString("SessionId")
-    console.log(employeeid);*@
+    $(document).ready(function () {
+        $('.custom-file-input').on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next('.custom-file-label').html(fileName)
+        })
+    });
 </script>

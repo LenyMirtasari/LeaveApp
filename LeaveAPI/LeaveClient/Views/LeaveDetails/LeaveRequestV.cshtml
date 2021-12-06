@@ -33,14 +33,7 @@
                             <label class="col-md-4 label-request">Phone Number :</label>
                             <input id="phoneNumber" type="text" name="name" value="" disabled />
                         </div>
-                     @*   <div class="form-group row">
-                            <label class="col-md-4 label-request">Available Leave (Last Year) :</label>
-                            <input id="lastYear" type="text" name="name" value="" disabled />
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 label-request">Available Leave (Current Year) :</label>
-                            <input id="currentYear" type="text" name="name" value="" disabled />
-                        </div>*@
+                  
                         <div class="form-group row">
                             <label class="col-md-4 label-request">Total Leave :</label>
                             <input id="totalLeaves" type="text" name="name" value="" disabled />
@@ -53,7 +46,7 @@
 
                         <div class="card">
                             <div class="card-header">Leave Request Detail</div>
-                            <form id="formRequestLeave" action="saveLeaveRequest" method="POST" enctype="multipart/form-data">
+                            <form enctype="multipart/form-data" id="formRequestLeave" action="saveLeaveRequest" method="POST" enctype="multipart/form-data">
 
                                 <input id="employeeId1" type="hidden" name="name" value="" disabled />
                                 <div class="card-body">
@@ -104,6 +97,13 @@
                                         <div class="col-md-7">
                                             <textarea id="notes" name="notes" class="form-control" maxlength="225" rows="3"
                                                       placeholder="This notes has a limit of 225 chars."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label">Upload File  :</label>
+                                        <div class="col-md-7">
+                                            <input class="form-control custom-file-input" name="File" type="file">
+                                            <label class="custom-file-label">Choose File...</label>
                                         </div>
                                     </div>
 

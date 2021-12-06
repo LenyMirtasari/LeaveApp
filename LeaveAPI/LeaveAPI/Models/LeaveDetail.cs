@@ -22,6 +22,8 @@ namespace LeaveAPI.Models
 
         public Approval Approval { get; set; }
 
+        public string File { get; set; }
+
         public int ManagerId { get; set; }
 
         public int LeaveTypeId { get; set; }

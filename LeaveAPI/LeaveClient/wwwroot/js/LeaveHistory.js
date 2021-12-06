@@ -162,6 +162,16 @@ $(document).ready(function () {
 });
 
 function Insert() {
+
+    var formData = new FormData();
+    formData.append('file', $('#fileUpload')[0].files[0]);
+    formData.append('EmployeeId', $("#employeeId2").val());
+    formData.append('StartDate', $("#startDate2").val());
+    formData.append('EndDate', $("#endDate2").val());
+    formData.append('ManagerId', $("#managerId2").val());
+    formData.append('LeaveTypeId', $("#LeaveType2").val());
+    formData.append('Note', $("#notes2").val());
+  
     var obj = new Object();
     obj.EmployeeId = $("#employeeId2").val();
     obj.StartDate = $("#startDate2").val();
@@ -170,7 +180,10 @@ function Insert() {
     obj.LeaveTypeId = $("#LeaveType2").val();
     leave1 = $("#LeaveType2").val();
     obj.Note = $("#notes2").val();
+    //obj.File = fileData.append.name[0], files[0];
+    obj.File = $("#fileUpload").val();
     manager = $("#managerName2").val()
+    //obj.File = new FormData(File)
     leaveType1 = "";
     if (leave1 == 1) {
         leaveType1 = "Cuti Tahunan";
@@ -191,8 +204,11 @@ function Insert() {
     $.ajax({
         url: "/LeaveDetails/LeaveRequest",
         type: "POST",
-        'data': obj,
-        'dataType': 'json',
+        data: formData,
+        processData: false,
+        contentType: false
+
+    
     }).done((result) => {
         console.log(result);
         if (result == 200) {
@@ -264,6 +280,9 @@ $("#formRequestLeave2").validate({
             /*   minlength: 50,*/
             maxlength: 225,
             required: true
+        },
+        File: {
+            required : true
         }
     },
     errorPlacement: function (error, element) {
