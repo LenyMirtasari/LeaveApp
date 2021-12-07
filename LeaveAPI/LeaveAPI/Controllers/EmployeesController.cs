@@ -1,10 +1,8 @@
-﻿using LeaveAPI.BaseController;
-using LeaveAPI.Context;
+﻿using LeaveAPI.Base;
 using LeaveAPI.Models;
 using LeaveAPI.Repository.Data;
 using LeaveAPI.ViewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -19,40 +17,37 @@ using System.Threading.Tasks;
 
 namespace LeaveAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class EmployeesController : BaseController<Employee, EmployeeRepository, int>
     {
         private readonly EmployeeRepository repository;
         public IConfiguration _configuration;
-
-        private readonly MyContext myContext;
-        public EmployeesController(EmployeeRepository employeeRepository, IConfiguration configuration, MyContext myContext) : base(employeeRepository)
+        public EmployeesController(EmployeeRepository employeeRepository, IConfiguration configuration) : base(employeeRepository)
         {
             this.repository = employeeRepository;
             this._configuration = configuration;
-            this.myContext = myContext;
         }
 
         [Route("Register")]
         [HttpPost]
         public ActionResult Register(RegisterVM registerVM)
         {
-            var result = repository.Register(registerVM);
-            if (result == 2)
+            var validasi = repository.Register(registerVM);
+            if (validasi == 1)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data Gagal Dimasukkan, Employee ID yang Anda Masukkan Sudah Terdaftar!" });
+                return Ok(new { status = HttpStatusCode.InternalServerError, result = "Internal Server Error", message = "NIK Sudah Terdafar" });
             }
-            else if (result == 3)
+            else if (validasi == 2)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data Gagal Dimasukkan, Nomor HP yang Anda Masukkan Sudah Terdaftar!" });
+                return Ok(new { status = HttpStatusCode.InternalServerError, result = "Internal Server Error", message = "Email Sudah Terdafar" });
             }
-            else if (result == 4)
+            else if (validasi == 3)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data Gagal Dimasukkan, Email yang Anda Masukkan Sudah Terdaftar!" });
+                return Ok(new { status = HttpStatusCode.InternalServerError, result = "Internal Server Error", message = "Phone Number Sudah Terdafar" });
             }
-            /*return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data Berhasil Ditambahkan" });*/
-            return Ok(new { status = HttpStatusCode.OK, result = "", message = "Berhasil Memasukkan Data Baru " });
+            else
+            {
+                return Ok(new { status = HttpStatusCode.OK, result = "", message = "Berhasil Memasukkan Data Baru " });
+            }
         }
 
         [Route("SignManager/{Key}")]
@@ -62,11 +57,11 @@ namespace LeaveAPI.Controllers
             try
             {
                 var result = repository.SignManager(key);
-                return Ok(new { status = HttpStatusCode.OK, result, message = "Data Berhasil di Updated" });
+                return Ok(new { status = HttpStatusCode.OK, result, message = "Data Updated" });
             }
             catch (Exception)
             {
-                return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Gagal di Update" });
+                return Ok(new { status = HttpStatusCode.InternalServerError, result = "", message = "Data Update Failed" });
             }
         }
 
@@ -101,60 +96,21 @@ namespace LeaveAPI.Controllers
             }
         }
 
-        /*[Route("Login")]
-        [HttpPost]
-        public ActionResult Login(LoginVM loginVM)
+        [Route("RequesterManager/{Key}")]
+        [HttpGet]
+        public ActionResult RequesterManager(int Key)
         {
-            var result = repository.GetLogin(loginVM);
-            if (result == 2)
+            var check = repository.GetEmployeeCheck(Key);
+            if (check == 0)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data gagal dimasukkan : EMAIL yang Anda masukkan TIDAK TERDAFTAR!!!" });
-            }
-            else if (result == 3)
-            {
-                *//*var getRoles = repository.GetRole(loginVM.Email);*//*
-
-                var data = new LoginVM()
-                {
-                    Email = loginVM.Email,
-                };
-
-                var claims = new List<Claim>
-                {
-                    new Claim("Email", data.Email),
-                };
-
-                *//*foreach (var item in getRoles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, item.ToString()));
-                }*//*
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                var sigIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken
-                    (
-                        _configuration["Jwt:Issuer"],
-                        _configuration["Jwt:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
-                        signingCredentials: sigIn
-                    );
-
-                var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
-                claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-                return Ok(new { status = HttpStatusCode.OK, idtoken, message = "Login Berhasil" });
-                return Ok(new JWTokenVM
-                {
-                    *//*status = HttpStatusCode.OK,*//*
-                    Token = idtoken,
-                    Messages = "Login Berhasil!!"
-                });
+                return NotFound(new { status = HttpStatusCode.NotFound, result = "", message = "Data Not Found " });
             }
             else
             {
-                return Ok(new { status = HttpStatusCode.BadRequest, message = "Login Gagal" });
+                var result = repository.GetRequesterManager(Key);
+                return Ok(result);
             }
-        }*/
+        }
 
         [Route("Login")]
         [HttpPost]
@@ -174,18 +130,21 @@ namespace LeaveAPI.Controllers
             else
             {
                 var getUserRoles = repository.GetUserRole(loginVM);
-
+                var EmployeeId = repository.GetEmployeeId(loginVM).ToString();
                 var data = new LoginDataVM()
                 {
                     Email = loginVM.Email,
                 };
+
                 var claims = new List<Claim>
                 {
                     new Claim("email", data.Email),
+                    new Claim("employeeId", EmployeeId)
                 };
                 foreach (var a in getUserRoles)
                 {
                     claims.Add(new Claim("roles", a.ToString()));
+
                 }
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -198,15 +157,10 @@ namespace LeaveAPI.Controllers
                             );
                 var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
                 claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-                return Ok(new JWTokenVM
-                {
-                    Messages = "Login Berhasil",
-                    Token = idtoken,
-                    RoleName = repository.GetUserRole(loginVM),
-                    EmployeeId = repository.GetEmployeeId(loginVM)
-                });
+                return Ok(new JWTokenVM { Messages = "Login Berhasil", Token = idtoken, RoleName = repository.GetUserRole(loginVM),
+                EmployeeId= repository.GetEmployeeId(loginVM) });
             }
-
+           
         }
 
         [Authorize]
@@ -215,6 +169,5 @@ namespace LeaveAPI.Controllers
         {
             return Ok("Test JWT berhasil");
         }
-
     }
 }

@@ -10,11 +10,10 @@ namespace LeaveAPI.Models
 {
     [Table("Tb_M_LeaveType")]
     public class LeaveType
-    {
-        [Key]
+    {   [Key]
         public int LeaveTypeId { get; set; }
         public string LeaveTypeName { get; set; }
-        public int Day { get; set; }
+        public int Day{ get; set; }
 
         [JsonIgnore]
         public virtual ICollection<LeaveDetail> LeaveDetail { get; set; }

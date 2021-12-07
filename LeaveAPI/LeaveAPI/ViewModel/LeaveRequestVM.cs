@@ -11,7 +11,11 @@ namespace LeaveAPI.ViewModel
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int ManagerId { get; set; }
+      //  public string ManagerName { get; set; }
         public int LeaveTypeId { get; set; }
         public string Note { get; set; }
+
+      //  public DateTime SubmitDate { get; set; }
+      //  public string LeaveTypeName { get; set; }
     }
 }

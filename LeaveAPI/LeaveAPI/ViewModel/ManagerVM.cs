@@ -8,9 +8,9 @@ namespace LeaveAPI.ViewModel
 {
     public class ManagerVM
     {
-        [Required(ErrorMessage = "Masukkan Employee Id")]
+        [Required(ErrorMessage = "Please enter Employee Id")]
         public int EmployeeId { get; set; }
-        [Required(ErrorMessage = "Masukkan Manager Id")]
+        [Required(ErrorMessage = "Please enter Manager Id")]
         public int ManagerId { get; set; }
     }
 }

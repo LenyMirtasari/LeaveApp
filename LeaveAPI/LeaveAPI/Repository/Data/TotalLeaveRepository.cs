@@ -9,9 +9,10 @@ namespace LeaveAPI.Repository.Data
 {
     public class TotalLeaveRepository : GeneralRepository<MyContext, TotalLeave, int>
     {
+        private readonly MyContext myContext;
         public TotalLeaveRepository(MyContext myContext) : base(myContext)
         {
-
+            this.myContext = myContext;
         }
     }
 }

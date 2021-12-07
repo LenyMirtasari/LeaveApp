@@ -13,6 +13,7 @@ namespace LeaveAPI.Models
     {
         [Key]
         public int JobId { get; set; }
+
         public string JobTitle { get; set; }
         [JsonIgnore]
         public virtual ICollection<Employee> Employee { get; set; }

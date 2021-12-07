@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace LeaveAPI.Repository.Data
 {
-    public class AccountRoleRepository : GeneralRepository<MyContext, AccountRole, int>
+    public class AccountRoleRepository : GeneralRepository<MyContext, AccountRole, int>  
     {
+        private readonly MyContext myContext;
         public AccountRoleRepository(MyContext myContext) : base(myContext)
         {
-
+            this.myContext = myContext;
         }
     }
 }

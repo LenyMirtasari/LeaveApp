@@ -29,7 +29,7 @@ namespace LeaveAPI.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Tb_M_Account");
+                    b.ToTable("Tb_T_Account");
                 });
 
             modelBuilder.Entity("LeaveAPI.Models.AccountRole", b =>
@@ -39,6 +39,9 @@ namespace LeaveAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AccountEmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
@@ -47,7 +50,7 @@ namespace LeaveAPI.Migrations
 
                     b.HasKey("AccountRoleId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("AccountEmployeeId");
 
                     b.HasIndex("RoleId");
 
@@ -62,7 +65,7 @@ namespace LeaveAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -83,13 +86,21 @@ namespace LeaveAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EmployeeId");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("JobId");
 
                     b.HasIndex("ManagerId");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
 
                     b.ToTable("Tb_T_Employee");
                 });
@@ -116,8 +127,8 @@ namespace LeaveAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Approval")
-                        .HasColumnType("bit");
+                    b.Property<int>("Approval")
+                        .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
@@ -228,9 +239,7 @@ namespace LeaveAPI.Migrations
                 {
                     b.HasOne("LeaveAPI.Models.Account", "Account")
                         .WithMany("AccountRole")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountEmployeeId");
 
                     b.HasOne("LeaveAPI.Models.Role", "Role")
                         .WithMany("AccountRole")

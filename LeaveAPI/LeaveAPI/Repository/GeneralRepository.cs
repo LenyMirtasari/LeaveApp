@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace LeaveAPI.Repository
 {
     public class GeneralRepository<Context, Entity, Key> : IRepository<Entity, Key>
-        where Entity : class
-        where Context : MyContext
+   where Entity : class
+   where Context : MyContext
     {
         private readonly MyContext myContext;
         private readonly DbSet<Entity> entities;
@@ -47,8 +47,8 @@ namespace LeaveAPI.Repository
 
         public int Delete(Key key)
         {
-            var item = entities.Find(key);
-            entities.Remove(item);
+            var entity = entities.Find(key);
+            myContext.Remove(entity);
             var result = myContext.SaveChanges();
             return result;
         }

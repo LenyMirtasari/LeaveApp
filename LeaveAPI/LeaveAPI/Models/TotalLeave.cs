@@ -10,15 +10,14 @@ namespace LeaveAPI.Models
 {
     [Table("Tb_T_TotalLeave")]
     public class TotalLeave
-    {
-        [Key]
+    {   [Key]
         public int TotalLeaveId { get; set; }
         public int EligibleLeave { get; set; }
         public int LastYear { get; set; }
         public int TotalLeaves { get; set; }
         public int CurrentYear { get; set; }
-
         public int EmployeeId { get; set; }
+
         [JsonIgnore]
         public virtual Employee Employee { get; set; }
     }

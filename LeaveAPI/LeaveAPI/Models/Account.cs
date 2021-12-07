@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace LeaveAPI.Models
 {
-    [Table("Tb_M_Account")]
+    [Table("Tb_T_Account")]
     public class Account
     {
         [Key]
-        public int EmployeeId { get; set; }
+        public int EmployeeId{ get; set; }
         public string Password { get; set; }
         [JsonIgnore]
         public virtual Employee Employee { get; set; }

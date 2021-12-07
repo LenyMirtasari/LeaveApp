@@ -14,10 +14,11 @@ namespace LeaveAPI.Models
         [Key]
         public int AccountRoleId { get; set; }
         public int EmployeeId { get; set; }
-        [JsonIgnore]
-        public virtual Account Account { get; set; }
         public int RoleId { get; set; }
+
         [JsonIgnore]
         public virtual Role Role { get; set; }
+        [JsonIgnore]
+        public virtual Account Account { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    UserName: @HttpContextAccessor.HttpContext.Session.GetInt32("SessionId")
+
+
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+
+    @*  $.ajax({
+        url: "https://localhost:44312/API/LeaveDetails/GetHistory/6",
+        success: function (result) {
+            console.log(result);
+        }
+    });*@
+   @* var employeeid = HttpContext.Session.GetString("SessionId")
+    console.log(employeeid);*@
+</script>

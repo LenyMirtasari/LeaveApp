@@ -1,6 +1,4 @@
 ﻿using LeaveAPI.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,24 +30,14 @@ namespace LeaveAPI.ViewModel
         public int JobId { get; set; }
         public int? ManagerId { get; set; }
 
-        [Required(ErrorMessage = "Please enter your gender")]
+        [Required(ErrorMessage = "Please enter your Gender")]
         public Gender Gender { get; set; }
-
         [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
-
-        [Required]
-        public int RoleId { get; set; }
         public int EligibleLeave { get; set; }
         public int LastYear { get; set; }
         public int TotalLeaves { get; set; }
         public int CurrentYear { get; set; }
         public int EmployeeId { get; set; }
     }
-
-    /*public enum Gender
-    {
-        Male,
-        Female
-    }*/
 }

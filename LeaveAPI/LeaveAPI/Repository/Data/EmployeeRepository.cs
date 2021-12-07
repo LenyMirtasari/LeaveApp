@@ -1,5 +1,6 @@
 ﻿using LeaveAPI.Context;
 using LeaveAPI.Models;
+using LeaveAPI.PasswordHashing;
 using LeaveAPI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,6 @@ namespace LeaveAPI.Repository.Data
 {
     public class EmployeeRepository : GeneralRepository<MyContext, Employee, int>
     {
-        private static string GetRandomSalt()
-        {
-            return BCrypt.Net.BCrypt.GenerateSalt(12);
-        }
-
-        public static bool ValidatePassword(string password, string correctHash)
-        {
-            return BCrypt.Net.BCrypt.Verify(password, correctHash);
-        }
-
         private readonly MyContext myContext;
         public EmployeeRepository(MyContext myContext) : base(myContext)
         {
@@ -29,38 +20,20 @@ namespace LeaveAPI.Repository.Data
         public int Register(RegisterVM registerVM)
         {
             Employee e = new Employee();
-            var checkData = myContext.Employees.Find(registerVM.EmployeeId);
-            var checkPhone = myContext.Employees.Where(employee => employee.PhoneNumber == registerVM.PhoneNumber).FirstOrDefault();
-            var checkEmail = myContext.Employees.Where(employee => employee.Email == registerVM.Email).FirstOrDefault();
             e.FirstName = registerVM.FirstName;
-            if (checkData != null)
-            {
-                return 2;
-            }
-
             e.LastName = registerVM.LastName;
-            e.PhoneNumber = registerVM.PhoneNumber;
-            if (checkPhone != null)
-            {
-                return 3;
-            }
-
             e.Email = registerVM.Email;
-            if (checkEmail != null)
-            {
-                return 4;
-            }
-
+            e.PhoneNumber = registerVM.PhoneNumber;
             e.HireDate = registerVM.HireDate;
             e.JobId = 1;
             e.ManagerId = null;
-            /*e.Gender = registerVM.Gender;*/
+            e.Gender = registerVM.Gender;
             myContext.Add(e);
             myContext.SaveChanges();
-
+          
             Account a = new Account();
             a.EmployeeId = e.EmployeeId;
-            a.Password = BCrypt.Net.BCrypt.HashPassword(registerVM.Password, GetRandomSalt());
+            a.Password = Hashing.HashPassword(registerVM.Password);
             myContext.Add(a);
             myContext.SaveChanges();
 
@@ -73,14 +46,14 @@ namespace LeaveAPI.Repository.Data
             DateTime today = DateTime.Today;
             var totalDay = (today - registerVM.HireDate).TotalDays;
             var eligibleLeave = 0;
-            if (totalDay > 365)
-            {
-                eligibleLeave = 12;
-            }
-            else
-            {
-                eligibleLeave = 0;
-            }
+                if (totalDay> 365)
+                {
+                    eligibleLeave = 12;
+                }
+                else
+                {
+                    eligibleLeave = 0;
+                }
 
             TotalLeave tl = new TotalLeave();
             tl.EmployeeId = e.EmployeeId;
@@ -123,36 +96,11 @@ namespace LeaveAPI.Repository.Data
 
         public Object GetRequester(int Key)
         {
-            var result = from emp in myContext.Employees
-                         join job in myContext.Jobs on emp.JobId equals job.JobId
-                         join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
-                         where tl.EmployeeId == Key
-                         select new RequesterVM()
-                         {
-                             ID = Key,
-                             FullName = emp.FirstName + " " + emp.LastName,
-                             JobTittle = job.JobTitle,
-                             Email = emp.Email,
-                             PhoneNumber = emp.PhoneNumber,
-                             ManagerId = emp.ManagerId,
-
-                             TotalLeaveId = tl.TotalLeaveId,
-                             EligibleLeave = tl.EligibleLeave,
-                             LastYear = tl.LastYear,
-                             CurrentYear = tl.CurrentYear,
-                             TotalLeaves = tl.TotalLeaves
-                         };
-
-            return result.OrderByDescending(x => x.TotalLeaveId).First();
-        }
-
-        /*public Object GetProfile(int Key)
-        {
             var result = from emp in myContext.Employees                      
                          join job in myContext.Jobs on emp.JobId equals job.JobId
                          join tl in myContext.TotalLeaves on emp.EmployeeId equals tl.EmployeeId
-                         where emp.EmployeeId == Key
-                         select new RequesterVM()
+                         where tl.EmployeeId == Key
+                         select new RequesterInfoVM()
                          {
                              ID = Key,
                              FullName = emp.FirstName + " " + emp.LastName,                        
@@ -160,37 +108,44 @@ namespace LeaveAPI.Repository.Data
                              Email = emp.Email,
                              PhoneNumber = emp.PhoneNumber,
                              ManagerId = emp.ManagerId,
+                             ManagerName = (from e in myContext.Employees where e.EmployeeId == emp.ManagerId select e.FirstName).FirstOrDefault()+" "+
+                             (from e in myContext.Employees where e.EmployeeId == emp.ManagerId select e.LastName).FirstOrDefault()
+                             ,
+                             TotalLeaveId = tl.TotalLeaveId,
                              EligibleLeave = tl.EligibleLeave,
                              LastYear = tl.LastYear,
                              CurrentYear = tl.CurrentYear,
                              TotalLeaves = tl.TotalLeaves
                          };
+           
+            return result.OrderByDescending(x=>x.TotalLeaveId).First();
+        }
+
+        public Object GetRequesterManager(int Key)
+        {
+            var result = from emp in myContext.Employees
+                         join job in myContext.Jobs on emp.JobId equals job.JobId
+                         join ld in myContext.LeaveDetails on emp.EmployeeId equals ld.EmployeeId
+                         join lt in myContext.LeaveTypes on ld.LeaveTypeId equals lt.LeaveTypeId
+                         where ld.ManagerId == Key && ld.Approval == 0
+                         select new RequesterManagerVM()
+                         {
+                             LeaveDetailId = ld.LeaveDetailId, 
+                             EmployeeId = emp.EmployeeId,
+                             FullName = emp.FirstName + " " + emp.LastName,
+                             JobTittle = job.JobTitle,
+                             Email = emp.Email,
+                             PhoneNumber = emp.PhoneNumber,
+                             SubmitDate = ld.SubmitDate,
+                             Approval = ld.Approval,
+                             StartDate = ld.StartDate,
+                             EndDate = ld.EndDate,
+                             Note = ld.Note,
+                             LeaveType = lt.LeaveTypeName
+                         };
 
             return result;
-        }*/
-
-        /*public int Login(LoginVM loginVM)
-        {
-            Employee employee = new Employee();
-            Account account = new Account();
-            var checkEmail = myContext.Employees.Where(employee => employee.Email == loginVM.Email).FirstOrDefault();
-            *//*var checkEmail = myContext.Employees.Find(loginVM.Email);*//*
-            if (checkEmail == null)
-            {
-                return 2;
-            }
-
-            var checkPassword = myContext.Accounts.Find(checkEmail.EmployeeId);
-            bool validPassword = BCrypt.Net.BCrypt.Verify(loginVM.Password, checkPassword.Password);
-            if (validPassword)
-            {
-                return 3;
-            }
-            else
-            {
-                return 4;
-            }
-        }*/
+        }
 
         public int GetLogin(string emailInput, string passwordInput)
         {
@@ -202,7 +157,7 @@ namespace LeaveAPI.Repository.Data
                                 join acc in myContext.Accounts on emp.EmployeeId equals acc.EmployeeId
                                 where emp.Email == emailInput
                                 select acc.Password).Single();
-                var validPw = ValidatePassword(passwordInput, password);
+                var validPw = Hashing.ValidatePassword(passwordInput, password);
                 if (checkEmail != null)
                 {
                     if (validPw == true)
@@ -237,7 +192,7 @@ namespace LeaveAPI.Repository.Data
         }
         public int GetEmployeeId(LoginVM loginVM)
         {
-            var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();
+            var id = (from emp in myContext.Employees where emp.Email == loginVM.Email select emp.EmployeeId).FirstOrDefault();         
             return id;
         }
     }

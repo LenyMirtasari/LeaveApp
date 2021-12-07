@@ -13,70 +13,87 @@ namespace LeaveAPI.Context
         {
 
         }
-        public DbSet<Employee> Employees { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountRole> AccountRoles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<LeaveDetail> LeaveDetails { get; set; }
-        public DbSet<LeaveType> LeaveTypes { get; set; }
+        public DbSet<LeaveDetail> LeaveDetails{ get; set; }
+        public DbSet<LeaveType> LeaveTypes{ get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<TotalLeave> TotalLeaves { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //One to One => Employee to Account
+        {   //Employe - Account
             modelBuilder.Entity<Employee>()
                 .HasOne(a => a.Account)
                 .WithOne(b => b.Employee)
                 .HasForeignKey<Account>(b => b.EmployeeId);
 
-            //One to Many => Account to AccountRole
-            modelBuilder.Entity<AccountRole>()
-                .HasOne(ar => ar.Account)
-                .WithMany(b => b.AccountRole)
-                .HasForeignKey(ar => ar.EmployeeId);
-
-            //One to Many => Role to AccountRole
-            modelBuilder.Entity<AccountRole>()
-                .HasOne(ar => ar.Role)
-                .WithMany(c => c.AccountRole)
-                .HasForeignKey(ar => ar.RoleId);
-
-            //One to Many => Job to Employee
+            //Job - Employee
             modelBuilder.Entity<Job>()
-                .HasMany(c => c.Employee)
-                .WithOne(e => e.Job);
+               .HasMany(a => a.Employee)
+               .WithOne(b => b.Job);
 
-            //One to Many => Employee to LeaveDetailEmployee
+            //Account - AccountRole
+            modelBuilder.Entity<Account>()
+                .HasMany(c => c.AccountRole)
+                .WithOne(e => e.Account);
+
+            //Role - AccountRole
+            modelBuilder.Entity<Role>()
+                .HasMany(c => c.AccountRole)
+                .WithOne(e => e.Role);
+
+            //LeaveDetail - Employee
+            modelBuilder.Entity<Employee>()
+                .HasMany(c => c.TotalLeave)
+                .WithOne(e => e.Employee);
+
+            //LeaveType - LeaveDetail
+            modelBuilder.Entity<LeaveType>()
+                .HasMany(c => c.LeaveDetail)
+                .WithOne(e => e.LeaveType);
+
+            //Employee - Leave Detail Manager
+            /* modelBuilder.Entity<LeaveDetail>()
+                 .HasOne(a => a.Manager)
+                 .WithMany(b => b.LeaveDetailManager)
+                 .HasForeignKey(a => a.ManagerId);*/
+            /* modelBuilder.Entity<Employee>()
+                 .HasMany(c => c.LeaveDetailManager)
+                 .WithOne(e => e.Manager);*/
             modelBuilder.Entity<LeaveDetail>()
                     .HasOne(m => m.Manager)
                     .WithMany(t => t.LeaveDetailManager)
                     .HasForeignKey(m => m.ManagerId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //One to Many => Employee to LeaveDetailManager
+
+            //Employee - Leave Detail Employee
             modelBuilder.Entity<LeaveDetail>()
                     .HasOne(m => m.Employee)
                     .WithMany(t => t.LeaveDetailEmployee)
                     .HasForeignKey(m => m.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //One to Many => Employee to TotalLeave
-            modelBuilder.Entity<Employee>()
-                .HasMany(c => c.TotalLeave)
-                .WithOne(e => e.Employee);
+            modelBuilder.Entity<LeaveDetail>()
+                 .HasOne(a => a.Employee)
+                 .WithMany(b => b.LeaveDetailEmployee)
+                 .HasForeignKey(a => a.EmployeeId);
+            /*modelBuilder.Entity<Employee>()
+                .HasMany(c => c.LeaveDetailEmployee)
+                .WithOne(e => e.Employee);*/
 
-            //One to Many => LeaveType to LeaveDetail
-            modelBuilder.Entity<LeaveType>()
-                .HasMany(c => c.LeaveDetail)
-                .WithOne(e => e.LeaveType);
-
-            //One to Many => Employee to Manager
+            //SelfJoin Employee-Manager
             modelBuilder.Entity<Employee>()
-                    .HasOne(m => m.Manager)
-                    .WithMany(t => t.Employees)
-                    .HasForeignKey(m => m.ManagerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                 .HasMany(a => a.Employees)
+                 .WithOne(b => b.Manager)
+                 .HasForeignKey(a => a.ManagerId)
+                 .OnDelete(DeleteBehavior.ClientSetNull); 
+          
+
+
+
+
         }
     }
 }
