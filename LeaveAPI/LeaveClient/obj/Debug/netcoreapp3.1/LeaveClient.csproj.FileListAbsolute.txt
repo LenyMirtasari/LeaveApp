@@ -97,3 +97,4 @@ D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.pdb
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\LeaveClient.genruntimeconfig.cache
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LeaveLayoutManager.cshtml.g.cs
 D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index1.cshtml.g.cs
+D:\MCC\LeaveApp\LeaveAPI\LeaveClient\obj\Debug\netcoreapp3.1\Razor\Views\Home\Coba.cshtml.g.cs

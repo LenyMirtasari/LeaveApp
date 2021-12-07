@@ -9,5 +9,6 @@ namespace LeaveClient.ViewModel
     public class UploadVM
     {
         public IFormFile File { get; set; }
+        public string FileName { get; set; }
     }
 }

@@ -60,5 +60,23 @@ namespace LeaveClient.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult Coba()
+        {
+            string filepaths = Path.Combine(hostingEnvironment.WebRootPath, "e1d10ec7-f532-4c62-87be-4a6a8d673c3e_2.PNG");
+            List<UploadVM> files = new List<UploadVM>();
+           
+                files.Add(new UploadVM { FileName = Path.GetFileName(filepaths) });
+
+            
+            return View(files);
+        }
+
+        public FileResult DownloadFile(string aa)
+        {
+            string path = Path.Combine(hostingEnvironment.WebRootPath, "files")+"/"+aa ;
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/octet-stream", aa);
+        }
     }
 }

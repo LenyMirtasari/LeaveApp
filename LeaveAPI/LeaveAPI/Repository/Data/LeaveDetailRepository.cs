@@ -278,7 +278,8 @@ namespace LeaveAPI.Repository.Data
                              StartDate = ld.StartDate,
                              EndDate = ld.EndDate,
                              Note = ld.Note,
-                             LeaveType = lt.LeaveTypeName
+                             LeaveType = lt.LeaveTypeName,
+                             FileName = ld.File
                          };
 
             return result.First();

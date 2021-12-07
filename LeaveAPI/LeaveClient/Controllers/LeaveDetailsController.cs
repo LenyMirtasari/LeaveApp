@@ -68,6 +68,17 @@ namespace LeaveClient.Controllers
             return Json(result);
         }
 
-       
+
+
+        public FileResult DownloadFile(string fileName)
+        {
+            string path = Path.Combine(hostingEnvironment.WebRootPath, "files") + "/" + fileName;
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+            return File(bytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+          //  return File(bytes, "application/octet-stream", fileName);
+        }
+
+
     }
 }

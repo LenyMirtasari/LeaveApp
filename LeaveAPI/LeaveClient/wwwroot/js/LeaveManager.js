@@ -81,8 +81,43 @@ function ModalLeave(id) {
                             <label class="col-md-4" for="employeeId"><strong>Note</strong></label>
                             <span class="col-md-7">: ${result.note}</span>
                         </div>
+                        <div class="row form-group">
+                            <label class="col-md-4" for="employeeId"><strong>File</strong></label>
+                            <span class="col-md-7">: ${result.fileName} <a href="javascript:Download('${result.fileName}');">Download File<a> </span>
+                                           
+                        </div>
                      `
             $('#leaveModal1').html(leaves);
+        }
+    })
+}
+
+
+function Download(fileName) {
+    console.log(fileName);
+    $.ajax({
+        url: "/LeaveDetails/DownloadFile/",
+        type: "POST",
+        'data': { fileName: fileName },
+      /*  'dataType': 'json',*/
+        success: function (data) {
+            var blob = new Blob([data], { type: "application/octetstream" });
+
+            //Check the Browser type and download the File.
+            var isIE = false || !!document.documentMode;
+            if (isIE) {
+                window.navigator.msSaveBlob(blob, fileName);
+            } else {
+                var url = window.URL || window.webkitURL;
+                link = url.createObjectURL(blob);
+                var a = $("<a />");
+                a.attr("download", fileName);
+                a.attr("href", link);
+                $("body").append(a);
+                a[0].click();
+                $("body").remove(a);
+            }
+
         }
     })
 }

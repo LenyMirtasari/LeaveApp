@@ -21,5 +21,6 @@ namespace LeaveAPI.ViewModel
         public Approval Approval { get; set; }
 
         public string LeaveType { get; set; }
+        public string FileName { get; set; }
     }
 }

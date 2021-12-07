@@ -1,0 +1,23 @@
+﻿
+@using LeaveClient.ViewModel
+@model List<UploadVM>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th></th>
+        </tr>
+        @foreach (UploadVM file in Model) {
+        <tr>
+            <td>@file.FileName</td>
+            <td>@Html.ActionLink("Download", "DownloadFile", new { aa = file.FileName })</td> 
+        </tr>
+        }
+    </table>
+</body>
+</html>
