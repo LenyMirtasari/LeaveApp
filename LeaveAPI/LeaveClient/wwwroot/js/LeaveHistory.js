@@ -20,20 +20,21 @@
             {
                 "data": "startDate",
                 "render": function (date) {
-                    var date;
+                 /*   var date;
                     date = date.toString();
                     dateTime = date.substring(0, 10);
-                    return dateTime;
+                    return dateTime;*/
+                    date = date.toString();
+                    date = moment(date, "YYYY-MM-DD").format("DD MMMM YYYY");
+                    return date;
                 }
             },
             {
                 "data": "endDate",
                 "render": function (date) {
-                    var date;
                     date = date.toString();
-                    dateTime = date.substring(0, 10);
-                  
-                    return dateTime;
+                    date = moment(date, "YYYY-MM-DD").format("DD MMMM YYYY");
+                    return date;
                 }
             },
             {

@@ -24,10 +24,9 @@
             {
                 "data": "submitDate",
                 "render": function (date) {
-                    var date;
                     date = date.toString();
-                    dateTime = date.substring(0, 10);
-                    return dateTime;
+                    date = moment(date, "YYYY-MM-DD").format("DD MMMM YYYY");
+                    return date;
                 }
             },
             {
@@ -50,8 +49,12 @@ function ModalLeave(id) {
             console.log(result);
             $("#ModalLeave").modal("show");
             $("#leaveDetailId1").val(result.leaveDetailId);
-            d = result.startDate.split('T')[0];
-            f = result.endDate.split('T')[0];
+            date = result.startDate.toString();
+            date = moment(date, "YYYY-MM-DD").format("DD MMMM YYYY");
+            endDate = result.endDate.toString();
+            endDate = moment(endDate, "YYYY-MM-DD").format("DD MMMM YYYY");
+            /*d = result.startDate.split('T')[0];
+            f = result.endDate.split('T')[0];*/
             leaves += `
                         <div class="row form-group">
                             <label class="col-md-4" for="employeeId"><strong>Leave Request ID</strong></label>
@@ -67,11 +70,11 @@ function ModalLeave(id) {
                         </div>
                         <div class="row form-group">
                             <label class="col-md-4" for="employeeId"><strong>Start Date</strong></label>
-                            <span class="col-md-7">: ${d}</span>
+                            <span class="col-md-7">: ${date}</span>
                         </div>
                         <div class="row form-group">
                             <label class="col-md-4" for="employeeId"><strong>End Date</strong></label>
-                            <span class="col-md-7">: ${f}</span>
+                            <span class="col-md-7">: ${endDate}</span>
                         </div>
                         <div class="row form-group">
                             <label class="col-md-4" for="employeeId"><strong>Leave Type</strong></label>
@@ -99,7 +102,7 @@ function Download(fileName) {
         url: "/LeaveDetails/DownloadFile/",
         type: "POST",
         'data': { fileName: fileName },
-      /*  'dataType': 'json',*/
+        /*'dataType': 'json',*/
         success: function (data) {
             var blob = new Blob([data], { type: "application/octetstream" });
 

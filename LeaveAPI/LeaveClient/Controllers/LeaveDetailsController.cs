@@ -76,7 +76,7 @@ namespace LeaveClient.Controllers
             byte[] bytes = System.IO.File.ReadAllBytes(path);
 
             return File(bytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-          //  return File(bytes, "application/octet-stream", fileName);
+            //return File(bytes, "application/octet-stream", fileName);
         }
 
 
